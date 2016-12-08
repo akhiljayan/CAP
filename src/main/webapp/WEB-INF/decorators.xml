@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/decorators">
+	<decorator name="homeDefault" page="HomeLayout.jsp">
+		<pattern>/home/*</pattern>
+	</decorator>
+	<decorator name="adminDefault" page="AdminLayout.jsp">
+		<pattern>/Admin/*</pattern>
+	</decorator>
+	<decorator name="homeDefault" page="HomeLayout.jsp">
+		<pattern>/Ajax/*</pattern>
+	</decorator>
+</decorators>

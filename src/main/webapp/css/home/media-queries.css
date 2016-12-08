@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+/* ---------------------------------------------------------------------- */
+/*	Version 2048px
+/* ---------------------------------------------------------------------- */
+
+@media handheld, only screen and (max-width: 2048px) {
+    .content_map{
+        position: absolute;
+    }
+    header .navbar .navbar-inner ul.nav li a{
+        padding: 18px 20px;
+        font-size: 12px;
+    }
+    .theme-default .nivo-caption{
+        font-size: 21px;
+    }
+}
+
+
+@media handheld, only screen and (max-width: 1200px) {
+    .content_map{
+        position: absolute;
+    }
+    header .navbar .navbar-inner ul.nav li a{
+        padding: 18px 9px;
+    }
+    .theme-default .nivo-caption{
+        font-size: 21px;
+    }
+}
+/* ---------------------------------------------------------------------- */
+/*	Version 1170px
+/* ---------------------------------------------------------------------- */
+
+@media handheld, only screen and (max-width: 1170px) {
+    .content_map{
+        position: absolute;
+    }
+    header .navbar .navbar-inner ul.nav li a{
+        padding: 18px 9px;
+    }
+    .theme-default .nivo-caption{
+        font-size: 21px;
+    }
+}
+@media handheld, only screen and (max-width: 1134px) {
+    .center_content {
+        width: 100%;
+    }
+    .right_content{
+        width: 100%;
+        margin-left: 0;
+    }
+    .menu_item{
+        width: 16.563%;
+    }
+    .center_content .navbar .nav {
+        display: block;
+    }
+    #tinynav1{
+        display: none;
+    }
+    .right_content section{
+        text-align: center;
+    }
+    .right_content .avatar_img{
+        width: 20%;
+    }
+    .home .camera_thumb{
+        height: auto;
+    }
+    .cameraContents .camera_caption h1{
+        font-size: 26px;
+        padding: 8px 21px;
+
+    }
+    .cameraContents .camera_caption span{
+        font-size: 16px;
+        width: 47%;
+    }
+    .container-fluid .center_content footer .content_footer{
+        display: table;
+
+    }
+    .container-fluid .right_content footer .content_footer{
+
+        display: none;
+
+    }
+    footer .content_footer{
+        font-size: 11px;
+    }
+    #grid_content{
+        height: 600px;
+    }
+    .content_map{
+        position: absolute;
+    }
+    .theme-default .nivo-caption{
+        font-size: 21px;
+    }
+
+}
+/* ---------------------------------------------------------------------- */
+/*	Version 1024px
+/* ---------------------------------------------------------------------- */
+
+@media handheld, only screen and (max-width: 1024px) {
+	/* Header ------------------------------------------*/
+	#requestShowing { 
+	   display: none;
+	}
+    .content_map{
+        position: absolute;
+    }
+
+    .theme-default .nivo-caption{
+        font-size: 21px;
+    }
+}
+/* ---------------------------------------------------------------------- */
+/*	Mobile Version 980px
+/* ---------------------------------------------------------------------- */
+@media handheld, only screen and (max-width: 990px) {
+    .theme-default .nivo-caption{
+        font-size: 21px;
+    }
+
+    .theme-default .nivoSlider{
+        height: inherit;
+    }
+    header .navbar .navbar-inner ul.nav li a{
+        font-size: 10px;
+        padding: 18px 8px;
+    }
+    .theme-default{
+        padding: 0 20px;
+    }
+
+}
+/* ---------------------------------------------------------------------- */
+/*	Mobile Version 767px
+/* ---------------------------------------------------------------------- */
+
+@media handheld, only screen and (max-width: 767px) {
+    body {
+        padding: 0!important;
+    }    
+    header .navbar {
+        margin: 0 !important;
+    }
+    header nav ul li a { 
+        line-height: 25px;
+    }
+	.navbar-inverse .nav-collapse .nav > li > a, .navbar-inverse .nav-collapse .dropdown-menu a { 
+		padding:5px 0 5px 20px;
+		font-weight:300;
+		line-height:28px;
+	}
+    section.sliderbox{
+        padding-top: 180px;
+    }		
+    .content_map{
+        height: 500px;
+        position: relative;
+        width: 100%
+    }
+    .contact .course-form-box{
+        margin: 0;
+    }
+    #requestShowing { 
+        display: none;
+    }
+    .theme-default{
+        padding: 0;
+    }
+	.video {
+		margin-bottom:60px;
+	}
+
+}
+/* ---------------------------------------------------------------------- */
+/*	Mobile Version 600px
+/* ---------------------------------------------------------------------- */
+
+@media handheld, only screen and (max-width: 600px) {
+    .content_map{
+        height: 500px;
+        position: relative;
+        width: 100%
+    }
+    .theme-default .nivo-caption{
+        font-size: 13px;
+    }
+}	
+/* ---------------------------------------------------------------------- */
+/*	Mobile Version 480px
+/* ---------------------------------------------------------------------- */
+@media handheld, only screen and (max-width: 480px) {
+    header .topbar .btn {
+        float: none;
+    }
+    header .topbar h1 {
+        display: block;
+    }
+    header .topbar h1 a{
+        margin: 0 auto;
+    }
+    .cs-style-4 figcaption{
+        width: 46%;
+    }
+    .pricing_table .item{
+        width: 100%;
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
