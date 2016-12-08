@@ -168,13 +168,13 @@ public class AdminController {
 		return "redirect:/Admin/announcement";
 	}
 	
-	@RequestMapping(value = "/deleteStudent/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteStudent/{id}", method = RequestMethod.POST)
 	public String deleteRole(@PathVariable Integer id, final RedirectAttributes redirectAttributes) {
 		Student std = sservice.findOneStudent(id);
 		User user = std.getUserID();		
 		sservice.removeStudent(std);
 		uservice.removeUser(user);
-		return "redirect:/Admin/announcement";
+		return "list-students";
 	}
 
 }

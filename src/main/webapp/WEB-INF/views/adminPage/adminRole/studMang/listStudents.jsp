@@ -55,7 +55,7 @@
 									<td>${student.studentDepartmentID.departmentName}</td>
 									<td>${student.status}</td>
 									<td><a href="/caps/Admin/editStudent/${student.studentID}" title="Edit"><i class="fa fa-pencil-square"></i></a></td>
-									<td><a href="#" title="Delete"><i class="fa fa-trash-o"></i></a></td>
+									<td><a href="javascript:void(0)" class="delete-student" data-deleteid="${student.studentID}" title="Delete"><i class="fa fa-trash-o"></i></a></td>
 								</tr>
 							</c:forEach>
 						</tbody>

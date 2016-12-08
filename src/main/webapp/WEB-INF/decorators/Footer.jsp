@@ -3,6 +3,7 @@
 
 <script src="<c:url value="/js/admin/plugins/jQuery/jquery-2.2.3.min.js"/>"></script>
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="<c:url value="/js/admin/caps.js"/>"></script>
 <script>$.widget.bridge('uibutton', $.ui.button);</script>
 <script src="<c:url value="/js/admin/bootstrap/bootstrap.min.js"/>"></script>
