@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iss.caps.model.Student;
+import edu.iss.caps.model.User;
 import edu.iss.caps.repository.StudentRepository;
 
 @Service
@@ -61,5 +62,12 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional
 	public void removeStudent(Student student) {
 		studRepo.delete(student);
+	}
+
+	@Override
+	@Transactional
+	public Student findOneByUserId(User user) {
+		Student stud = studRepo.findStudentByUserId(user);
+		return stud;
 	}
 }

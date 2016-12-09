@@ -14,8 +14,7 @@ public class UserSession {
 	private String sessionId = null;
 	private boolean logedIn = false;
 	private boolean adminFlag = false;
-	
-
+	private int generalID;
 	private User user = null;
 	
 	public UserSession() {
@@ -58,6 +57,14 @@ public class UserSession {
 
 	public void setAdminFlag(boolean homeFlag) {
 		this.adminFlag = homeFlag;
+	}
+	
+	public int getGeneralID() {
+		return generalID;
+	}
+
+	public void setGeneralID(int generalID) {
+		this.generalID = generalID;
 	}
 
 

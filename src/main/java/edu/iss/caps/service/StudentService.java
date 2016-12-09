@@ -3,6 +3,7 @@ package edu.iss.caps.service;
 import java.util.ArrayList;
 
 import edu.iss.caps.model.Student;
+import edu.iss.caps.model.User;
 
 public interface StudentService {
 	
@@ -17,4 +18,6 @@ public interface StudentService {
 	Student changeStudent(Student student);
 	
 	void removeStudent(Student student);
+	
+	Student findOneByUserId(User user);
 }

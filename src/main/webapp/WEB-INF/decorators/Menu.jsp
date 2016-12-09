@@ -58,12 +58,15 @@
 		</c:when>
 		<c:when
 			test="${sessionScope.USERSESSION.user.roleID.role == 'Student'}">
-			<li class="active treeview"><a href="#"> <i
-					class="fa fa-dashboard"></i> <span>Dashboard</span> <span
-					class="pull-right-container"> <span
-						class="label label-primary pull-right">10</span>
-				</span>
-			</a></li>
+			<li class="active treeview">
+				<a href="#"> 
+					<i class="fa fa-dashboard"></i> 
+					<span>Dashboard</span> 
+					<span class="pull-right-container"> 
+						<span class="label label-primary pull-right">10</span>
+					</span>
+				</a>
+			</li>
 		</c:when>
 	</c:choose>
 

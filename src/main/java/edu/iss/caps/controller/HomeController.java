@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.iss.caps.service.*;
 import edu.iss.caps.controller.UserSession;
+import edu.iss.caps.model.Student;
 import edu.iss.caps.model.User;
 
 /**
@@ -37,6 +38,9 @@ public class HomeController {
 	
 	@Autowired
 	private LecturerService lservice;
+	
+	@Autowired
+	private StudentService sservice;
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String indexPage(Model model,HttpServletRequest request) {
@@ -57,10 +61,16 @@ public class HomeController {
 			User u = uservice.authenticate(user.getUsername(), user.getPassword());
 			us.setUser(u);
 			us.setLogedIn(true);
-			// PUT CODE FOR SETTING SESSION ID
 			us.setSessionId(session.getId());
 			us.setAdminFlag(true);
-//			mav = new ModelAndView("redirect:/staff/history");
+			if(u.getRoleID().getRole().equals("Student")){
+				Student logedStudent = sservice.findOneByUserId(u);
+				us.setGeneralID(logedStudent.getStudentID());
+			}else if(u.getRoleID().getRole().equals("Lecturer")){
+				
+			}else{
+				
+			}
 			mav = new ModelAndView("redirect:/home/redirect");
 		} else {
 			return mav;
@@ -88,7 +98,6 @@ public class HomeController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/home/main";
-
 	}
 
 	

@@ -6,6 +6,9 @@
 	<decorator name="adminDefault" page="AdminLayout.jsp">
 		<pattern>/Admin/*</pattern>
 	</decorator>
+	<decorator name="adminDefault" page="AdminLayout.jsp">
+		<pattern>/Student/*</pattern>
+	</decorator>
 	<decorator name="homeDefault" page="HomeLayout.jsp">
 		<pattern>/Ajax/*</pattern>
 	</decorator>
