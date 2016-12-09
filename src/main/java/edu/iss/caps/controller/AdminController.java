@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,8 @@ import edu.iss.caps.service.LoginroleService;
 import edu.iss.caps.service.StudentService;
 import edu.iss.caps.service.UserService;
 //import edu.iss.caps.model.Student;
+import edu.iss.caps.validator.DepartmentValidator;
+import edu.iss.caps.validator.FacultyValidator;
 
 @Controller
 @RequestMapping(value = "/Admin")
@@ -50,6 +54,22 @@ public class AdminController {
 
 	@Autowired
 	private FacultyService fservice;
+	
+	@Autowired
+	private DepartmentValidator dValidator;
+	
+	@Autowired
+	private FacultyValidator fValidator;
+	
+	@InitBinder("department")
+	private void initDepartmentBinder(WebDataBinder binder) {
+		binder.addValidators(dValidator);
+	}
+	
+	@InitBinder("faculty")
+	private void initFacultyBinder(WebDataBinder binder) {
+		binder.addValidators(fValidator);
+	}
 
 	@RequestMapping(value = "/announcement", method = RequestMethod.GET)
 	public String indexPage(Model model, HttpSession session) {
@@ -175,6 +195,120 @@ public class AdminController {
 		sservice.removeStudent(std);
 		uservice.removeUser(user);
 		return "list-students";
+	}
+
+	@RequestMapping(value="/manageDepartment",method=RequestMethod.GET)
+	public ModelAndView ListDepartmentPage(){
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/manageDept/department-list");
+		mav.addObject("dlist",dservice.findAllDepartments());
+		return mav;
+	}
+	
+	@RequestMapping(value = "/createDepartment", method = RequestMethod.GET)
+	public ModelAndView newDepartmentPage() {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/manageDept/department-new", "department", new Department());
+		mav.addObject("dlist", dservice.findAllDepartments());
+		mav.addObject("flist",fservice.findAllFaculty());
+		return mav;
+	}
+	
+	@RequestMapping(value = "/createDepartment",method=RequestMethod.POST)
+	public ModelAndView createNewDepartment(@ModelAttribute @Valid Department department,BindingResult result,
+			final RedirectAttributes redirectAttributes){
+		if (result.hasErrors()){
+			ModelAndView mav = new ModelAndView("adminPage/adminRole/manageDept/department-new");
+			mav.addObject("flist",fservice.findAllFaculty());
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView();
+		dservice.createDepartment(department);
+		mav.setViewName("redirect:/Admin/manageDepartment");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/editDepartment/{id}", method = RequestMethod.GET)
+	public ModelAndView editDepartmentPage(@PathVariable int id) {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/manageDept/department-edit");
+		Department department = dservice.findDepartment(id);
+		mav.addObject("department", department);
+		mav.addObject("dlist", dservice.findAllDepartments());
+		mav.addObject("flist",fservice.findAllFaculty());
+		return mav;
+	}
+
+	@RequestMapping(value = "/editDepartment/{id}", method = RequestMethod.POST)
+	public ModelAndView editDepartment(@ModelAttribute @Valid Department department, BindingResult result,
+			@PathVariable int id, final RedirectAttributes redirectAttributes) /*throws DepartmentNotFound*/ {
+		if (result.hasErrors()){
+			ModelAndView mav = new ModelAndView("adminPage/adminRole/manageDept/department-edit");
+			mav.addObject("flist",fservice.findAllFaculty());
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("redirect:/Admin/manageDepartment");	
+		dservice.changeDepartment(department);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public ModelAndView deleteDepartment(@PathVariable int id, final RedirectAttributes redirectAttributes){
+		ModelAndView mav = new ModelAndView("redirect:/dept/list");
+		Department department = dservice.findDepartment(id);
+		dservice.removeDepartment(department);
+		return mav;
+	}
+	
+	@RequestMapping(value="/manageFaculty",method=RequestMethod.GET)
+	public ModelAndView ListFacultyPage(){
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/manageFaclty/faculty-list");
+		mav.addObject("flist",fservice.findAllFaculty());
+		return mav;
+	}
+	
+	@RequestMapping(value = "/createFaculty", method = RequestMethod.GET)
+	public ModelAndView newFacultyPage() {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/manageFaclty/faculty-new", "faculty", new Faculty());
+		mav.addObject("flist", fservice.findAllFaculty());
+		return mav;
+	}
+	
+	@RequestMapping(value = "/createFaculty",method=RequestMethod.POST)
+	public ModelAndView createNewFaculty(@ModelAttribute @Valid Faculty faculty,BindingResult result,
+			final RedirectAttributes redirectAttributes){
+		if (result.hasErrors()){
+			return new ModelAndView("adminPage/adminRole/manageFaclty/faculty-new");
+		}
+		ModelAndView mav = new ModelAndView();	
+		fservice.createFaculty(faculty);
+		mav.setViewName("redirect:/Admin/manageFaculty");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/editFaculty/{id}", method = RequestMethod.GET)
+	public ModelAndView editFacultyPage(@PathVariable int id) {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/manageFaclty/faculty-edit");
+		Faculty faculty = fservice.findFaculty(id);
+		mav.addObject("faculty", faculty);
+		mav.addObject("flist", fservice.findAllFaculty());
+		return mav;
+	}
+
+	@RequestMapping(value = "/editFaculty/{id}", method = RequestMethod.POST)
+	public ModelAndView editFaculty(@ModelAttribute @Valid Faculty faculty, BindingResult result,
+			@PathVariable int id, final RedirectAttributes redirectAttributes) /*throws DepartmentNotFound*/ {
+		if (result.hasErrors()){
+			return new ModelAndView("adminPage/adminRole/manageFaclty/faculty-edit");
+		}
+		ModelAndView mav = new ModelAndView("redirect:/Admin/manageFaculty");	
+		fservice.changeFaculty(faculty);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/deleteFaculty/{id}", method = RequestMethod.GET)
+	public ModelAndView deleteFaculty(@PathVariable int id, final RedirectAttributes redirectAttributes){
+		ModelAndView mav = new ModelAndView("redirect:/facut/list");
+		Faculty faculty = fservice.findFaculty(id);
+		fservice.removeFaculty(faculty);
+		return mav;
 	}
 
 }

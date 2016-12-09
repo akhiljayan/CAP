@@ -10,4 +10,12 @@ public interface DepartmentService {
 	
 	Department findOneById(int id);
 	
+	Department createDepartment(Department Department);
+	
+	Department findDepartment(int id);
+	
+	Department changeDepartment(Department Department);
+	
+	void removeDepartment(Department Department);
+	
 }

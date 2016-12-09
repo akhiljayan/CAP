@@ -89,7 +89,6 @@
 	                        <li><a href="#menu-gallery"> Locations</a></li>
 	                        <li><a href="#menu-map">Map</a></li>
 	                        <li><a href="#menu-contact">Contact</a></li>
-	                        <li><a href="#menu-contact">${session}</a></li>
 	                    </ul>
 	                </div><!--/.nav-collapse -->
 	            </div>

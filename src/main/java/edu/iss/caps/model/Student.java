@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,13 +21,10 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
 /**
- * Student class
  *
- * @version $Revision: 1.0
+ * @author AkhilJayan
  */
-
 @Entity
 @Table(name = "student")
 @XmlRootElement
@@ -92,7 +88,7 @@ public class Student implements Serializable {
     @ManyToOne
     private User userID;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    @OneToMany(mappedBy = "studentID")
     private Collection<Studentgrade> studentgradeCollection;
 
     public Student() {
@@ -221,7 +217,7 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "iss.edu.caps.modal.Student[ studentID=" + studentID + " ]";
+        return "sss.Student[ studentID=" + studentID + " ]";
     }
     
 }

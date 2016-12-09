@@ -35,15 +35,20 @@ public class Faculty implements Serializable {
     @Basic(optional = false)
     @Column(name = "FacultyID")
     private Integer facultyID;
+    
     @Size(max = 60)
     @Column(name = "FacultyName")
     private String facultyName;
+    
     @OneToMany(mappedBy = "studentFacultyID")
     private Collection<Student> studentCollection;
+    
     @OneToMany(mappedBy = "courseFacultyID")
     private Collection<Courseinfo> courseinfoCollection;
+    
     @OneToMany(mappedBy = "lecturerFacultyID")
     private Collection<Lecturer> lecturerCollection;
+    
     @OneToMany(mappedBy = "facultyID")
     private Collection<Department> departmentCollection;
 

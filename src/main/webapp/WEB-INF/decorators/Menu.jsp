@@ -22,6 +22,8 @@
 	<c:choose>
 		<c:when test="${sessionScope.USERSESSION.user.roleID.role == 'Admin'}">
 			<spring:url value="/Admin/studListManage" var="listStudManage" htmlEscape="true" />
+			<spring:url value="/Admin/manageDepartment" var="manageDepartment" htmlEscape="true" />
+			<spring:url value="/Admin/manageFaculty" var="manageFaculty" htmlEscape="true" />
 			<li class="active treeview"><a href="#"> <i
 					class="fa fa-dashboard"></i> <span>Dashboard</span> <span
 					class="pull-right-container"> <span
@@ -46,6 +48,18 @@
 						class="label pull-right bg-red">C</small>
 				</span>
 			</a></li>
+			<li><a href="${manageDepartment}"> <i
+					class="fa fa-circle-o text-red"></i> <span>Manage Departments</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">MD</small>
+				</span>
+			</a></li>
+			<li><a href="${manageFaculty}"> <i
+					class="fa fa-circle-o text-red"></i> <span>Manage Faculty</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">MF</small>
+				</span>
+			</a></li>
 		</c:when>
 		<c:when
 			test="${sessionScope.USERSESSION.user.roleID.role == 'Lecturer'}">
@@ -58,6 +72,7 @@
 		</c:when>
 		<c:when
 			test="${sessionScope.USERSESSION.user.roleID.role == 'Student'}">
+			<spring:url value="/Student/viewGrades" var="viewGrades" htmlEscape="true" />
 			<li class="active treeview">
 				<a href="#"> 
 					<i class="fa fa-dashboard"></i> 
@@ -67,6 +82,12 @@
 					</span>
 				</a>
 			</li>
+			<li><a href="${viewGrades}"> <i
+					class="fa fa-circle-o text-red"></i> <span>View Grades</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">MF</small>
+				</span>
+			</a></li>
 		</c:when>
 	</c:choose>
 

@@ -12,16 +12,16 @@
 <body>
 
 
-	<a class="btn btn-primary pull-right" href="/caps/Admin/addStudent" style="">Add a Student</a>
+	<a class="btn btn-primary pull-right" href="/caps/Admin/createFaculty" style="">Add a Faculty</a>
 	<div class="col-xs-12" style="margin-top:10px">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">Students</h3>
+				<h3 class="box-title">Faculty</h3>
 
 				<div class="box-tools">
 					<div class="input-group input-group-sm" style="width: 150px;">
 						<input type="text" name="table_search"
-							class="form-control pull-right search-student"
+							class="form-control pull-right search-faculty"
 							placeholder="Search by name">
 
 						<div class="input-group-btn">
@@ -35,27 +35,21 @@
 			<!-- /.box-header -->
 			<div class="box-body table-responsive no-padding"
 				id="list-students-details">
-				<c:if test="${fn:length(slist) gt 0}">
+				<c:if test="${fn:length(flist) gt 0 }">
 					<table class="table table-hover">
 						<tbody>
 							<tr>
 								<th>#</th>
-								<th>Name</th>
-								<th>Faculty</th>
-								<th>Department</th>
-								<th>Status</th>
+								<th>Faculty Name</th>
 								<th>Edit</th>
 								<th>Delete</th>
 							</tr>
-							<c:forEach var="student" items="${slist}">
+							<c:forEach var="facut" items="${flist}">
 								<tr>
-									<td>${student.studentID}</td>
-									<td>${student.studentName}</td>
-									<td>${student.studentFacultyID.facultyName}</td>
-									<td>${student.studentDepartmentID.departmentName}</td>
-									<td>${student.status}</td>
-									<td><a href="/caps/Admin/editStudent/${student.studentID}" title="Edit"><i class="fa fa-pencil-square"></i></a></td>
-									<td><a href="javascript:void(0)" class="delete-student" data-deleteid="${student.studentID}" title="Delete"><i class="fa fa-trash-o"></i></a></td>
+									<td>${dept.facultyID}</td>
+									<td>${facut.facultyName}</td>
+									<td><a href="/caps/Admin/editFaculty/${facut.facultyID}" title="Edit"><i class="fa fa-pencil-square"></i></a></td>
+									<td><a href="javascript:void(0)" class="delete-faculty" data-deleteid="${facut.facultyID}" title="Delete"><i class="fa fa-trash-o"></i></a></td>
 								</tr>
 							</c:forEach>
 						</tbody>

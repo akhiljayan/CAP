@@ -10,4 +10,11 @@ public interface FacultyService {
 	
 	Faculty finfOneById(int id);
 	
+	Faculty createFaculty(Faculty Faculty);
+	
+	Faculty findFaculty(int id);
+	
+	Faculty changeFaculty(Faculty Faculty);
+	void removeFaculty(Faculty Faculty);
+	
 }

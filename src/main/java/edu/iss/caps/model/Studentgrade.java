@@ -1,10 +1,14 @@
 package edu.iss.caps.model;
 
+
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,46 +28,44 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Studentgrade.findAll", query = "SELECT s FROM Studentgrade s")
-    , @NamedQuery(name = "Studentgrade.findByStudentID", query = "SELECT s FROM Studentgrade s WHERE s.studentgradePK.studentID = :studentID")
-    , @NamedQuery(name = "Studentgrade.findByCourseID", query = "SELECT s FROM Studentgrade s WHERE s.studentgradePK.courseID = :courseID")
     , @NamedQuery(name = "Studentgrade.findByGrade", query = "SELECT s FROM Studentgrade s WHERE s.grade = :grade")
     , @NamedQuery(name = "Studentgrade.findByEnrolledDate", query = "SELECT s FROM Studentgrade s WHERE s.enrolledDate = :enrolledDate")
-    , @NamedQuery(name = "Studentgrade.findByCompletionStatus", query = "SELECT s FROM Studentgrade s WHERE s.completionStatus = :completionStatus")})
+    , @NamedQuery(name = "Studentgrade.findByCompletionStatus", query = "SELECT s FROM Studentgrade s WHERE s.completionStatus = :completionStatus")
+    , @NamedQuery(name = "Studentgrade.findByEnrolmentID", query = "SELECT s FROM Studentgrade s WHERE s.enrolmentID = :enrolmentID")})
 public class Studentgrade implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected StudentgradePK studentgradePK;
     @Size(max = 10)
     @Column(name = "Grade")
     private String grade;
+    
     @Column(name = "EnrolledDate")
     @Temporal(TemporalType.DATE)
     private Date enrolledDate;
+    
     @Size(max = 45)
     @Column(name = "CompletionStatus")
     private String completionStatus;
-    @JoinColumn(name = "StudentID", referencedColumnName = "StudentID", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Student student;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "EnrolmentID")
+    private Integer enrolmentID;
+    
+    @JoinColumn(name = "CourseID", referencedColumnName = "CourseID")
+    @ManyToOne
+    private Courseinfo courseID;
+    
+    @JoinColumn(name = "StudentID", referencedColumnName = "StudentID")
+    @ManyToOne
+    private Student studentID;
 
     public Studentgrade() {
     }
 
-    public Studentgrade(StudentgradePK studentgradePK) {
-        this.studentgradePK = studentgradePK;
-    }
-
-    public Studentgrade(int studentID, int courseID) {
-        this.studentgradePK = new StudentgradePK(studentID, courseID);
-    }
-
-    public StudentgradePK getStudentgradePK() {
-        return studentgradePK;
-    }
-
-    public void setStudentgradePK(StudentgradePK studentgradePK) {
-        this.studentgradePK = studentgradePK;
+    public Studentgrade(Integer enrolmentID) {
+        this.enrolmentID = enrolmentID;
     }
 
     public String getGrade() {
@@ -90,18 +92,34 @@ public class Studentgrade implements Serializable {
         this.completionStatus = completionStatus;
     }
 
-    public Student getStudent() {
-        return student;
+    public Integer getEnrolmentID() {
+        return enrolmentID;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setEnrolmentID(Integer enrolmentID) {
+        this.enrolmentID = enrolmentID;
+    }
+
+    public Courseinfo getCourseID() {
+        return courseID;
+    }
+
+    public void setCourseID(Courseinfo courseID) {
+        this.courseID = courseID;
+    }
+
+    public Student getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(Student studentID) {
+        this.studentID = studentID;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (studentgradePK != null ? studentgradePK.hashCode() : 0);
+        hash += (enrolmentID != null ? enrolmentID.hashCode() : 0);
         return hash;
     }
 
@@ -112,7 +130,7 @@ public class Studentgrade implements Serializable {
             return false;
         }
         Studentgrade other = (Studentgrade) object;
-        if ((this.studentgradePK == null && other.studentgradePK != null) || (this.studentgradePK != null && !this.studentgradePK.equals(other.studentgradePK))) {
+        if ((this.enrolmentID == null && other.enrolmentID != null) || (this.enrolmentID != null && !this.enrolmentID.equals(other.enrolmentID))) {
             return false;
         }
         return true;
@@ -120,7 +138,7 @@ public class Studentgrade implements Serializable {
 
     @Override
     public String toString() {
-        return "com.iss.caps.Studentgrade[ studentgradePK=" + studentgradePK + " ]";
+        return "sss.Studentgrade[ enrolmentID=" + enrolmentID + " ]";
     }
     
 }
