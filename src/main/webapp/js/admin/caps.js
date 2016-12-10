@@ -10,29 +10,32 @@ $(document).ready(function() {
 });
 
 $(document).ready(function(){
+	$("body").on("click",".delete-department",function(){
+		var deptId = $(this).data("deleteid");
+		var deletepath = "/caps/Admin/deleteDepartment/" + deptId;
+		var deletefor = "Department";
+		deleteSwal(deletepath,deletefor);
+	});
+	
+	$("body").on("click",".delete-faculty",function(){
+		var facultyId = $(this).data("deleteid");
+		var deletepath = "/caps/Admin/deleteFaculty/" + studentId;
+		var deletefor = "Faculty";
+		deleteSwal(deletepath,deletefor);
+	});
+	
 	$("body").on("click",".delete-student",function(){
 		var studentId = $(this).data("deleteid");
-		swal({
-			  title: "Are you sure?",
-			  text: "You will not be able to recover this imaginary file!",
-			  type: "warning",
-			  showCancelButton: true,
-			  confirmButtonColor: "#DD6B55",
-			  confirmButtonText: "Yes, delete it!",
-			  cancelButtonText: "No, cancel plx!",
-			  closeOnConfirm: false,
-			  closeOnCancel: false
-			},
-			function(isConfirm){
-			  if (isConfirm) {
-				var set = deleteStudent(studentId);  
-				swal("Deleted!", "Student has been deleted.", "success");
-				location.reload();
-
-			  } else {
-			    swal("Cancelled", "Student is safe :)", "error");
-			  }
-			});
+		var deletepath = "/caps/Admin/deleteStudent/" + studentId;
+		var deletefor = "Student";
+		deleteSwal(deletepath,deletefor);
+	});
+	
+	$("body").on("click",".delete-course",function(){
+		var studentId = $(this).data("deleteid");
+		var deletepath = "/caps/Admin/deleteCourse/" + studentId;
+		var deletefor = "Course";
+		deleteSwal(deletepath,deletefor);
 	});
 });
 
@@ -64,12 +67,35 @@ function listStudents(value) {
 	});
 }
 
-function deleteStudent(studentId) {
-	var deleteStudentsPath = "/caps/Admin/deleteStudent/" + studentId;
+function deleteSwal(path,deletefor){
+	swal({
+		  title: "Are you sure?",
+		  text: "You will not be able to recover this "+deletefor+" details!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "Yes, delete it!",
+		  cancelButtonText: "No, cancel plx!",
+		  closeOnConfirm: false,
+		  closeOnCancel: false
+		},
+		function(isConfirm){
+		  if (isConfirm) {
+			var set = deleteItem(path);  
+			swal("Deleted!", deletefor+" has been deleted.", "success");
+			location.reload();
+
+		  } else {
+		    swal("Cancelled", deletefor+" is safe :)", "error");
+		  }
+		});
+}
+
+function deleteItem(path){
 	var set = "false";
 	$.ajax({
 		type : "POST",
-		url : deleteStudentsPath,
+		url : path,
 		context : this,
 		beforeSend : function() {
 		},
@@ -83,6 +109,5 @@ function deleteStudent(studentId) {
 		complete : function() {
 		}
 	});
-	
 	return set;
 }

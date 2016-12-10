@@ -3,6 +3,7 @@ package edu.iss.caps.controller;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,16 +24,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.iss.caps.model.Courseinfo;
 import edu.iss.caps.model.Department;
 import edu.iss.caps.model.Faculty;
 import edu.iss.caps.model.Loginrole;
 import edu.iss.caps.model.Student;
 import edu.iss.caps.model.User;
+import edu.iss.caps.service.CourseinfoService;
 import edu.iss.caps.service.DepartmentService;
 import edu.iss.caps.service.FacultyService;
 import edu.iss.caps.service.LoginroleService;
 import edu.iss.caps.service.StudentService;
 import edu.iss.caps.service.UserService;
+import edu.iss.caps.validator.CourseinfoValidator;
 //import edu.iss.caps.model.Student;
 import edu.iss.caps.validator.DepartmentValidator;
 import edu.iss.caps.validator.FacultyValidator;
@@ -61,14 +66,32 @@ public class AdminController {
 	@Autowired
 	private FacultyValidator fValidator;
 	
+	@Autowired
+	private CourseinfoService courseService;
+	
+	@Autowired
+	private CourseinfoValidator courseValidator;
+	
 	@InitBinder("department")
 	private void initDepartmentBinder(WebDataBinder binder) {
 		binder.addValidators(dValidator);
 	}
 	
+	@InitBinder("courseInfo")
+	private void initCourseinfoBinder(WebDataBinder binder){
+		binder.addValidators(courseValidator);
+	}
+	
 	@InitBinder("faculty")
 	private void initFacultyBinder(WebDataBinder binder) {
 		binder.addValidators(fValidator);
+	}
+	
+	private void printPageDetails(PagedListHolder<Courseinfo> studentList) {
+		System.out.println("curent page - productList.getPage() :" + studentList.getPage());
+		System.out.println("Total Num of pages - productList.getPageCount :" + studentList.getPageCount());
+		System.out.println("is First page - productList.isFirstPage :" + studentList.isFirstPage());
+		System.out.println("is Last page - productList.isLastPage :" + studentList	.isLastPage());
 	}
 
 	@RequestMapping(value = "/announcement", method = RequestMethod.GET)
@@ -84,11 +107,13 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/studListManage", method = RequestMethod.GET)
-	public ModelAndView studListManage(Model model, HttpSession session) {
+	public ModelAndView studListManage( Model model, HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView("adminPage/adminRole/studMang/listStudents");
 		mav.addObject("slist", sservice.findAllStudents());
 		return mav;
 	}
+
+	
 
 	@RequestMapping(value = "/addStudent", method = RequestMethod.GET)
 	public ModelAndView addStudentForm(Model model, HttpSession session, Map<String, Object> map) {
@@ -249,7 +274,7 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteDepartment/{id}", method = RequestMethod.GET)
 	public ModelAndView deleteDepartment(@PathVariable int id, final RedirectAttributes redirectAttributes){
 		ModelAndView mav = new ModelAndView("redirect:/dept/list");
 		Department department = dservice.findDepartment(id);
@@ -308,6 +333,89 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView("redirect:/facut/list");
 		Faculty faculty = fservice.findFaculty(id);
 		fservice.removeFaculty(faculty);
+		return mav;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value={"/manageCourse/{type}","/manageCourse"},method=RequestMethod.GET)
+	public ModelAndView ListCoursePage(@PathVariable Map<String, String> pathVariablesMap, HttpServletRequest req){
+		
+		PagedListHolder<Courseinfo> cList = null;
+		String type = pathVariablesMap.get("type");
+		
+		if (null == type) {
+			List<Courseinfo> courseList = courseService.findAllActiveCourses();
+			cList = new PagedListHolder<Courseinfo>();
+			cList.setSource(courseList);
+			cList.setPageSize(5);
+			req.getSession().setAttribute("courseList", cList);
+			printPageDetails(cList);
+		} else if ("next".equals(type)) {
+			cList = (PagedListHolder<Courseinfo>) req.getSession().getAttribute("courseList");
+			cList.nextPage();
+		} else if ("prev".equals(type)) {
+			cList = (PagedListHolder<Courseinfo>) req.getSession().getAttribute("courseList");
+			cList.previousPage();
+		} else {
+			System.out.println("type:" + type);
+			cList = (PagedListHolder<Courseinfo>) req.getSession().getAttribute("courseList");
+			int pageNum = Integer.parseInt(type);
+			cList.setPage(pageNum);
+			printPageDetails(cList);
+		}
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/courseMang/course-list");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/createNewCourse", method = RequestMethod.GET)
+	public ModelAndView newCoursePage() {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/courseMang/course-new", "courseInfo", new Courseinfo());
+		mav.addObject("clist",courseService.findAllActiveCourses());
+		mav.addObject("dlist",dservice.findAllDepartments());
+		mav.addObject("flist",fservice.findAllFaculty());
+		return mav;
+	}
+	
+	@RequestMapping(value = "/createNewCourse",method=RequestMethod.POST)
+	public ModelAndView createNewCourseinfo(@ModelAttribute @Valid Courseinfo courseInfo,BindingResult result,
+			final RedirectAttributes redirectAttributes){
+		if (result.hasErrors()){
+			return new ModelAndView("adminPage/adminRole/courseMang/course-new");
+		}
+		ModelAndView mav = new ModelAndView();
+		courseInfo.setCourseActiveStatus("Active");
+		courseService.createCourseinfo(courseInfo);
+		mav.setViewName("redirect:/Admin/manageCourse");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/editCourse/{id}", method = RequestMethod.GET)
+	public ModelAndView editCoursesPage(@PathVariable int id) {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/courseMang/course-edit");
+		Courseinfo courseInfo = courseService.findCourseinfo(id);
+		mav.addObject("courseInfo", courseInfo);		
+		mav.addObject("dlist",dservice.findAllDepartments());
+		mav.addObject("flist",fservice.findAllFaculty());
+		return mav;
+	}
+
+	@RequestMapping(value = "/editCourse/{id}", method = RequestMethod.POST)
+	public ModelAndView editCourses(@ModelAttribute @Valid Courseinfo courseInfo, BindingResult result,
+			@PathVariable int id, final RedirectAttributes redirectAttributes) /*throws DepartmentNotFound*/ {
+		if (result.hasErrors()){
+			return new ModelAndView("adminPage/adminRole/courseMang/course-edit");
+		}
+		ModelAndView mav = new ModelAndView("redirect:/Admin/manageCourse");
+		courseService.changeCourseinfo(courseInfo);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/deleteCourse/{id}", method = RequestMethod.GET)
+	public ModelAndView deleteCourse(@PathVariable int id, final RedirectAttributes redirectAttributes){
+		ModelAndView mav = new ModelAndView("redirect:/Admin/manageCourse");
+		Courseinfo courseInfo = courseService.findCourseinfo(id);
+		courseInfo.setCourseActiveStatus("Inactive");
+		courseService.changeCourseinfo(courseInfo);		
 		return mav;
 	}
 

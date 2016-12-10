@@ -66,8 +66,23 @@ public class Courseinfo implements Serializable {
     private Faculty courseFacultyID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseinfo")
     private Collection<Courserun> courserunCollection;
+    
+    //New manually added CourseActive
+    @Size(max = 45)
+    @Column(name = "CourseActiveStatus")
+    private String CourseActiveStatus;
+    
+    
+    
+    public String getCourseActiveStatus() {
+		return CourseActiveStatus;
+	}
 
-    public Courseinfo() {
+	public void setCourseActiveStatus(String courseActiveStatus) {
+		CourseActiveStatus = courseActiveStatus;
+	}
+
+	public Courseinfo() {
     }
 
     public Courseinfo(Integer courseID) {

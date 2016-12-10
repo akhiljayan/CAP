@@ -24,6 +24,7 @@
 			<spring:url value="/Admin/studListManage" var="listStudManage" htmlEscape="true" />
 			<spring:url value="/Admin/manageDepartment" var="manageDepartment" htmlEscape="true" />
 			<spring:url value="/Admin/manageFaculty" var="manageFaculty" htmlEscape="true" />
+			<spring:url value="/Admin/manageCourse" var="manageCourse" htmlEscape="true" />
 			<li class="active treeview"><a href="#"> <i
 					class="fa fa-dashboard"></i> <span>Dashboard</span> <span
 					class="pull-right-container"> <span
@@ -42,8 +43,8 @@
 						class="label pull-right bg-red">L</small>
 				</span>
 			</a></li>
-			<li><a href="pages/calendar.html"> <i
-					class="fa fa-circle-o text-red"></i> <span>Cource Management</span>
+			<li><a href="${manageCourse}"> <i
+					class="fa fa-circle-o text-red"></i> <span>Course Management</span>
 					<span class="pull-right-container"> <small
 						class="label pull-right bg-red">C</small>
 				</span>
