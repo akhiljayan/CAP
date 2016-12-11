@@ -22,6 +22,10 @@
 	<c:choose>
 		<c:when test="${sessionScope.USERSESSION.user.roleID.role == 'Admin'}">
 			<spring:url value="/Admin/studListManage" var="listStudManage" htmlEscape="true" />
+			<spring:url value="/Admin/manageDepartment" var="manageDepartment" htmlEscape="true" />
+			<spring:url value="/Admin/manageFaculty" var="manageFaculty" htmlEscape="true" />
+			<spring:url value="/Admin/manageCourse" var="manageCourse" htmlEscape="true" />
+			<spring:url value="/AdminEnrol/manageEnrolment" var="manageEnrolment" htmlEscape="true" />
 			<li class="active treeview"><a href="#"> <i
 					class="fa fa-dashboard"></i> <span>Dashboard</span> <span
 					class="pull-right-container"> <span
@@ -40,33 +44,93 @@
 						class="label pull-right bg-red">L</small>
 				</span>
 			</a></li>
-			<li><a href="pages/calendar.html"> <i
-					class="fa fa-circle-o text-red"></i> <span>Cource Management</span>
+			<li><a href="${manageCourse}"> <i
+					class="fa fa-circle-o text-red"></i> <span>Course Management</span>
 					<span class="pull-right-container"> <small
 						class="label pull-right bg-red">C</small>
+				</span>
+			</a></li>
+			<li><a href="${manageDepartment}"> <i
+					class="fa fa-circle-o text-red"></i> <span>Manage Departments</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">MD</small>
+				</span>
+			</a></li>
+			<li><a href="${manageFaculty}"> <i
+					class="fa fa-circle-o text-red"></i> <span>Manage Faculty</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">MF</small>
+				</span>
+			</a></li>
+			<li><a href="${manageEnrolment}"> <i
+					class="fa fa-circle-o text-red"></i> <span>Manage Enrolment</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">ME</small>
 				</span>
 			</a></li>
 		</c:when>
 		<c:when
 			test="${sessionScope.USERSESSION.user.roleID.role == 'Lecturer'}">
+			<spring:url value="/Lecturer/viewMyCourses" var="viewMyCourses" htmlEscape="true" />
+			<spring:url value="/Lecturer/gradeStds" var="gradeStds" htmlEscape="true" />
+			<spring:url value="/Lecturer/viewEnrlmnt" var="viewEnrlmnt" htmlEscape="true" />
 			<li class="active treeview"><a href="#"> <i
 					class="fa fa-dashboard"></i> <span>Dashboard</span> <span
 					class="pull-right-container"> <span
 						class="label label-primary pull-right">10</span>
 				</span>
 			</a></li>
+			<li><a href="${viewMyCourses}"> <i
+					class="fa fa-circle-o text-red"></i> <span>View My Courses</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">VC</small>
+				</span>
+			</a></li>
+			<li><a href="${gradeStds}"> <i
+					class="fa fa-circle-o text-red"></i> <span>Grade Students</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">GS</small>
+				</span>
+			</a></li>
+			<li><a href="${viewEnrlmnt}"> <i
+					class="fa fa-circle-o text-red"></i> <span>View Enrolements</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">VE</small>
+				</span>
+			</a></li>
 		</c:when>
 		<c:when
 			test="${sessionScope.USERSESSION.user.roleID.role == 'Student'}">
+			<spring:url value="/Student/viewGrades" var="viewGrades" htmlEscape="true" />
+			<spring:url value="/Student/viewCourses" var="viewCourses" htmlEscape="true" />
+			<spring:url value="/Student/requestEnrolment" var="requestEnrolment" htmlEscape="true" />
 			<li class="active treeview">
 				<a href="#"> 
 					<i class="fa fa-dashboard"></i> 
 					<span>Dashboard</span> 
 					<span class="pull-right-container"> 
-						<span class="label label-primary pull-right">10</span>
+						<span class="label label-primary pull-right">DB</span>
 					</span>
 				</a>
 			</li>
+			<li><a href="${viewGrades}"> <i
+					class="fa fa-circle-o text-red"></i> <span>View Grades</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">VG</small>
+				</span>
+			</a></li>
+			<li><a href="${viewCourses}"> 
+					<i class="fa fa-circle-o text-red"></i> <span>View Courses</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">VG</small>
+				</span>
+			</a></li>
+			<li><a href="${requestEnrolment}"> 
+					<i class="fa fa-circle-o text-red"></i> <span>Request Enrolment</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">VG</small>
+				</span>
+			</a></li>
 		</c:when>
 	</c:choose>
 

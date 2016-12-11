@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,16 +29,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "lecturer")
 @XmlRootElement
-//@NamedQueries({
-//    @NamedQuery(name = "Lecturer.findAll", query = "SELECT l FROM Lecturer l")
-//    , @NamedQuery(name = "Lecturer.findByLecturerID", query = "SELECT l FROM Lecturer l WHERE l.lecturerID = :lecturerID")
-//    , @NamedQuery(name = "Lecturer.findByLecturerName", query = "SELECT l FROM Lecturer l WHERE l.lecturerName = :lecturerName")
-//    , @NamedQuery(name = "Lecturer.findByStatus", query = "SELECT l FROM Lecturer l WHERE l.status = :status")
-//    , @NamedQuery(name = "Lecturer.findByGender", query = "SELECT l FROM Lecturer l WHERE l.gender = :gender")
-//    , @NamedQuery(name = "Lecturer.findByDob", query = "SELECT l FROM Lecturer l WHERE l.dob = :dob")
-//    , @NamedQuery(name = "Lecturer.findByEmail", query = "SELECT l FROM Lecturer l WHERE l.email = :email")
-//    , @NamedQuery(name = "Lecturer.findByAddress", query = "SELECT l FROM Lecturer l WHERE l.address = :address")
-//    , @NamedQuery(name = "Lecturer.findByEmployedDate", query = "SELECT l FROM Lecturer l WHERE l.employedDate = :employedDate")})
+@NamedQueries({
+    @NamedQuery(name = "Lecturer.findAll", query = "SELECT l FROM Lecturer l")
+    , @NamedQuery(name = "Lecturer.findByLecturerID", query = "SELECT l FROM Lecturer l WHERE l.lecturerID = :lecturerID")
+    , @NamedQuery(name = "Lecturer.findByLecturerName", query = "SELECT l FROM Lecturer l WHERE l.lecturerName = :lecturerName")
+    , @NamedQuery(name = "Lecturer.findByStatus", query = "SELECT l FROM Lecturer l WHERE l.status = :status")
+    , @NamedQuery(name = "Lecturer.findByGender", query = "SELECT l FROM Lecturer l WHERE l.gender = :gender")
+    , @NamedQuery(name = "Lecturer.findByDob", query = "SELECT l FROM Lecturer l WHERE l.dob = :dob")
+    , @NamedQuery(name = "Lecturer.findByEmail", query = "SELECT l FROM Lecturer l WHERE l.email = :email")
+    , @NamedQuery(name = "Lecturer.findByAddress", query = "SELECT l FROM Lecturer l WHERE l.address = :address")
+    , @NamedQuery(name = "Lecturer.findByEmployedDate", query = "SELECT l FROM Lecturer l WHERE l.employedDate = :employedDate")})
 public class Lecturer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,47 +47,36 @@ public class Lecturer implements Serializable {
     @Basic(optional = false)
     @Column(name = "LecturerID")
     private Integer lecturerID;
-    
     @Size(max = 100)
     @Column(name = "LecturerName")
     private String lecturerName;
-    
     @Size(max = 45)
     @Column(name = "Status")
     private String status;
-    
     @Size(max = 20)
     @Column(name = "Gender")
     private String gender;
-    
     @Column(name = "DOB")
     @Temporal(TemporalType.DATE)
     private Date dob;
-    
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 120)
     @Column(name = "Email")
     private String email;
-    
     @Size(max = 200)
     @Column(name = "Address")
     private String address;
-    
     @Column(name = "EmployedDate")
     @Temporal(TemporalType.DATE)
     private Date employedDate;
-    
-    @ManyToMany(mappedBy = "lecturerCollection")
+    @ManyToMany(mappedBy = "lecturerCollection",fetch=FetchType.EAGER)
     private Collection<Courseinfo> courseinfoCollection;
-    
     @JoinColumn(name = "UserID", referencedColumnName = "UserID")
     @ManyToOne
     private User userID;
-    
     @JoinColumn(name = "LecturerDepartmentID", referencedColumnName = "DepartmentID")
     @ManyToOne
     private Department lecturerDepartmentID;
-    
     @JoinColumn(name = "LecturerFacultyID", referencedColumnName = "FacultyID")
     @ManyToOne
     private Faculty lecturerFacultyID;
@@ -217,7 +207,7 @@ public class Lecturer implements Serializable {
 
     @Override
     public String toString() {
-        return "com.iss.caps.Lecturer[ lecturerID=" + lecturerID + " ]";
+        return "sss.Lecturer[ lecturerID=" + lecturerID + " ]";
     }
     
 }

@@ -43,31 +43,54 @@ public class Courseinfo implements Serializable {
     @Basic(optional = false)
     @Column(name = "CourseID")
     private Integer courseID;
+    
     @Size(max = 120)
     @Column(name = "CourseName")
     private String courseName;
+    
     @Size(max = 300)
     @Column(name = "CourseDescription")
     private String courseDescription;
+    
     @Column(name = "MaxClassSize")
     private Integer maxClassSize;
+    
     @Column(name = "Credits")
     private Integer credits;
+    
     @JoinTable(name = "lecturercourse", joinColumns = {
         @JoinColumn(name = "CourseID", referencedColumnName = "CourseID")}, inverseJoinColumns = {
         @JoinColumn(name = "LecturerID", referencedColumnName = "LecturerID")})
     @ManyToMany
     private Collection<Lecturer> lecturerCollection;
+    
     @JoinColumn(name = "CourseDepartmentID", referencedColumnName = "DepartmentID")
     @ManyToOne
     private Department courseDepartmentID;
+    
     @JoinColumn(name = "CourseFacultyID", referencedColumnName = "FacultyID")
     @ManyToOne
     private Faculty courseFacultyID;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseinfo")
     private Collection<Courserun> courserunCollection;
+    
+    //New manually added CourseActive
+    @Size(max = 45)
+    @Column(name = "CourseActiveStatus")
+    private String CourseActiveStatus;
+    
+    
+    
+    public String getCourseActiveStatus() {
+		return CourseActiveStatus;
+	}
 
-    public Courseinfo() {
+	public void setCourseActiveStatus(String courseActiveStatus) {
+		CourseActiveStatus = courseActiveStatus;
+	}
+
+	public Courseinfo() {
     }
 
     public Courseinfo(Integer courseID) {

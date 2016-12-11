@@ -29,4 +29,28 @@ public class FacultyServiceImpl implements FacultyService{
 		return frepo.findOne(id);
 	}
 	
+	@Override
+	@Transactional
+	public Faculty createFaculty(Faculty faculty) {
+		return frepo.saveAndFlush(faculty);
+	}
+	
+	@Override
+	@Transactional
+	public Faculty findFaculty(int id) {
+		return frepo.findOne(id);
+	}
+	
+	@Override
+	@Transactional
+	public Faculty changeFaculty(Faculty faculty) {
+		return frepo.saveAndFlush(faculty);
+	}
+
+	@Override
+	@Transactional
+	public void removeFaculty(Faculty faculty) {
+		frepo.delete(faculty);
+	}
+	
 }

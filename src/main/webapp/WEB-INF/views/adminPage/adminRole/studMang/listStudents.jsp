@@ -16,16 +16,16 @@
 	<div class="col-xs-12" style="margin-top:10px">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">Responsive Hover Table</h3>
+				<h3 class="box-title">Students</h3>
 
 				<div class="box-tools">
-					<div class="input-group input-group-sm" style="width: 150px;">
+					<div class="input-group input-group-sm" style="width: 400px;">
 						<input type="text" name="table_search"
 							class="form-control pull-right search-student"
 							placeholder="Search by name">
 
 						<div class="input-group-btn">
-							<button type="submit" class="btn btn-default">
+							<button type="" class="btn btn-default">
 								<i class="fa fa-search"></i>
 							</button>
 						</div>

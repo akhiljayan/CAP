@@ -29,5 +29,30 @@ public class DepartmentServiceImpl implements DepartmentService {
 		Department dpt = drepo.findOne(id); 
 		return dpt;
 	}
+	
+	@Override
+	@Transactional
+	public Department createDepartment(Department Department) {
+		return drepo.saveAndFlush(Department);
+		 
+	}
+	
+	@Override
+	@Transactional
+	public Department findDepartment(int id) {
+		return drepo.findOne(id);
+	}
+	
+	@Override
+	@Transactional
+	public Department changeDepartment(Department department) {
+		return drepo.saveAndFlush(department);
+	}
+
+	@Override
+	@Transactional
+	public void removeDepartment(Department department) {
+		drepo.delete(department);
+	}
 
 }
