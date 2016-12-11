@@ -31,7 +31,6 @@ public class StudentController {
 	
 	@RequestMapping(value = "/announcement", method = RequestMethod.GET)
 	public String indexPage(Model model, HttpSession session) {
-		//return "redirect:/Student/announcement";
 		UserSession us = (UserSession) session.getAttribute("USERSESSION");
 		int id = us.getUser().getUserID();
 		String role = us.getUser().getRoleID().getRole();

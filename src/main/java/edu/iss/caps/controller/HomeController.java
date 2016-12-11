@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.iss.caps.service.*;
 import edu.iss.caps.controller.UserSession;
+import edu.iss.caps.model.Lecturer;
 import edu.iss.caps.model.Student;
 import edu.iss.caps.model.User;
 
@@ -54,8 +55,9 @@ public class HomeController {
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ModelAndView authenticate(@ModelAttribute User user, HttpSession session, BindingResult result) {
 		ModelAndView mav = new ModelAndView("login");
-		if (result.hasErrors())
+		if (result.hasErrors()){
 			return mav;
+		}
 		UserSession us = new UserSession();
 		if (user.getUsername() != null && user.getPassword() != null) {
 			User u = uservice.authenticate(user.getUsername(), user.getPassword());
@@ -67,12 +69,14 @@ public class HomeController {
 				Student logedStudent = sservice.findOneByUserId(u);
 				us.setGeneralID(logedStudent.getStudentID());
 			}else if(u.getRoleID().getRole().equals("Lecturer")){
-				
+				Lecturer logedLecturer = lservice.findOneByUserId(u);
+				us.setGeneralID(logedLecturer.getLecturerID());
 			}else{
 				
 			}
 			mav = new ModelAndView("redirect:/home/redirect");
 		} else {
+			mav = new ModelAndView("hamePage/noAccess");
 			return mav;
 		}
 		session.setAttribute("USERSESSION", us);
