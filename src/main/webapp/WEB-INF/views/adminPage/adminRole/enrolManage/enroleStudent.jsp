@@ -14,7 +14,7 @@
 	<div class="col-xs-12" style="margin-top:10px">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">Students</h3>
+				<h3 class="box-title">Course: ${crsName}</h3>
 
 				<div class="box-tools">
 					<div class="input-group input-group-sm" style="width: 400px;">
@@ -57,9 +57,14 @@
 													<c:when test="${enrl.completionStatus eq 'Enroled'}">
 														<td><a class="btn btn-warning" href="javascript:void(0)">Enroled</a></td>
 													</c:when>
+													<c:when test="${enrl.completionStatus eq 'Requested'}">
+														<td>
+															<a class="btn btn-primary enrol-student-grant" id="student-${student.studentID}" data-courseid="${courseId}" href="#">Grant Request</a>
+															<a class="btn btn-primary enrol-student-deny" id="student-${student.studentID}" data-courseid="${courseId}" href="#">Deny Request</a>
+														</td>
+													</c:when>
 													<c:when test="${enrl.completionStatus eq 'Failed'}">
-														<td><a class="btn btn-warning" href="javascript:void(0)">Failed</a>
-														<a class="btn btn-default enrol-student" id="student-${student.studentID}" href="javascript:void(0)">Enrole to course</a></td>
+														<td><a class="btn btn-warning" href="javascript:void(0)">Not Eligible</a>
 													</c:when>
 												</c:choose>
 												<c:set var="flag" scope="session" value="inside"/>

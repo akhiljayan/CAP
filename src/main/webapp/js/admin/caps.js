@@ -72,6 +72,75 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$("body").on("click",".add-course-request",function(){
+		var courseId = $(this).data("courseid");
+		var path = "/caps/Student/student-request/" + courseId ;
+		$.ajax({
+			type : "POST",
+			url : path,
+			context : this,
+			beforeSend : function() {
+			},
+			success : function($data) {
+				if($data != null){
+					swal("Request sent");
+					location.reload();
+				}else{
+					swal("Max number of students atained");
+				}
+			},
+			complete : function() {
+			}
+		});
+	});
+	
+	$("body").on("click",".enrol-student-grant",function(){
+		var courseId = $(this).data("courseid");
+		var studentId = $(this).data("studentid");
+		var path = "/caps/AdminEnrol/student-request-grant/" + courseId + "/" + studentId;
+		$.ajax({
+			type : "POST",
+			url : path,
+			context : this,
+			beforeSend : function() {
+			},
+			success : function($data) {
+				if($data != null){
+					swal("Status Updated");
+					location.reload();
+				}else{
+					swal("Max number of students atained");
+				}
+			},
+			complete : function() {
+			}
+		});
+	});
+	
+	$("body").on("click",".enrol-student-deny",function(){
+		var courseId = $(this).data("courseid");
+		var studentId = $(this).data("studentid");
+		var path = "/caps/AdminEnrol/enrol-student-deny/" + courseId + "/" + studentId;
+		$.ajax({
+			type : "POST",
+			url : path,
+			context : this,
+			beforeSend : function() {
+			},
+			success : function($data) {
+				if($data != null){
+					swal("Status Updated");
+					location.reload();
+				}else{
+					swal("Max number of students atained");
+				}
+			},
+			complete : function() {
+			}
+		});
+	});
+	
 });
 
 $(document).ready(function() {

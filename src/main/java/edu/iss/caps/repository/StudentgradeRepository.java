@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import edu.iss.caps.model.Courseinfo;
+import edu.iss.caps.model.Student;
 import edu.iss.caps.model.Studentgrade;
 
 
@@ -33,5 +35,8 @@ public interface StudentgradeRepository extends JpaRepository<Studentgrade,Integ
 
 	@Query("select sg from Studentgrade sg, Courseinfo ci WHERE sg.courseID.courseID = ci.courseID.courseID and sg.studentID.studentID = :id")
 	ArrayList<Studentgrade> viewPerformanceByStudentID(@Param("id")int id);
+
+	@Query("select sg from Studentgrade sg where sg.studentID = :student and sg.courseID = :crs")
+	Studentgrade findGradeByCourseStudent(@Param("student") Student student,@Param("crs") Courseinfo crs);
 	
 }

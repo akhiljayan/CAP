@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.iss.caps.model.Courseinfo;
+import edu.iss.caps.model.Student;
 import edu.iss.caps.model.Studentgrade;
 import edu.iss.caps.repository.StudentgradeRepository;
 
@@ -66,6 +68,12 @@ public class StudentgradeServiceImpl implements StudentgradeService{
 	@Transactional
 	public Studentgrade createEnrolment(Studentgrade enrolment) {
 		return sgrepository.saveAndFlush(enrolment);
+	}
+
+	@Override
+	@Transactional
+	public Studentgrade findGradeBySidCid(Student student, Courseinfo crs) {
+		return sgrepository.findGradeByCourseStudent(student,crs);
 	}
 	
 }

@@ -63,45 +63,43 @@ public class AdminEnrolmentController {
 
 	@Autowired
 	private FacultyService fservice;
-	
+
 	@Autowired
 	private DepartmentValidator dValidator;
-	
+
 	@Autowired
 	private FacultyValidator fValidator;
-	
+
 	@Autowired
 	private CourseinfoService courseService;
-	
+
 	@Autowired
 	private CourseinfoValidator courseValidator;
-	
+
 	@Autowired
 	private StudentgradeService gradeService;
-	
+
 	@InitBinder("department")
 	private void initDepartmentBinder(WebDataBinder binder) {
 		binder.addValidators(dValidator);
 	}
-	
+
 	@InitBinder("courseInfo")
-	private void initCourseinfoBinder(WebDataBinder binder){
+	private void initCourseinfoBinder(WebDataBinder binder) {
 		binder.addValidators(courseValidator);
 	}
-	
+
 	@InitBinder("faculty")
 	private void initFacultyBinder(WebDataBinder binder) {
 		binder.addValidators(fValidator);
 	}
-	
+
 	@RequestMapping(value = "/manageEnrolment", method = RequestMethod.GET)
-	public ModelAndView studListManage( Model model, HttpSession session, HttpServletRequest req) {
+	public ModelAndView studListManage(Model model, HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView("adminPage/adminRole/enrolManage/selectCourse");
 		mav.addObject("clist", courseService.findAllActiveCourses());
 		return mav;
 	}
-
-	
 
 	@RequestMapping(value = "/selectStudent", method = RequestMethod.POST)
 	public ModelAndView selectStudent(Model model, HttpSession session, HttpServletRequest request) {
@@ -109,14 +107,17 @@ public class AdminEnrolmentController {
 		ModelAndView mav = new ModelAndView("adminPage/adminRole/enrolManage/enroleStudent");
 		ArrayList<Studentgrade> enrolStstus = gradeService.getStudentGradeByCourse(courseId);
 		ArrayList<Student> students = sservice.findAllStudents();
+		String crsName = courseService.findCourseNameByID(courseId);
 		mav.addObject("enrolStstus", enrolStstus);
 		mav.addObject("students", students);
 		mav.addObject("courseId", courseId);
+		mav.addObject("crsName", crsName);
 		return mav;
 	}
 
 	@RequestMapping(value = "/student-enrole-admin/{studentId}/{courseId}", method = RequestMethod.POST)
-	public ModelAndView studentEnroleAdmin(Model model, HttpSession session, @PathVariable String studentId, @PathVariable String courseId) {
+	public ModelAndView studentEnroleAdmin(Model model, HttpSession session, @PathVariable String studentId,
+			@PathVariable String courseId) {
 		Student stu = sservice.findOneStudent(Integer.parseInt(studentId));
 		Courseinfo crs = courseService.findCourseinfo(Integer.parseInt(courseId));
 		Studentgrade enrolment = new Studentgrade();
@@ -125,12 +126,40 @@ public class AdminEnrolmentController {
 		enrolment.setCourseID(crs);
 		enrolment.setEnrolledDate(new Date());
 		enrolment.setStudentID(stu);
-		if(crs.getMaxClassSize() < grades.size()){
+		if (crs.getMaxClassSize() < grades.size()) {
 			return null;
-		}else{
+		} else {
 			Studentgrade newEnr = gradeService.createEnrolment(enrolment);
 			return new ModelAndView("adminPage/adminRole/enrolManage/enroleStudent");
 		}
+	}
+
+	@RequestMapping(value = "/student-request-grant/{courseId}/{studentId}", method = RequestMethod.POST)
+	public ModelAndView studentRequestGrant(Model model, HttpSession session, @PathVariable String courseId,
+			@PathVariable String studentId) {
+		Courseinfo crs = courseService.findCourseinfo(Integer.parseInt(courseId));
+		Student student = sservice.findOneStudent(Integer.parseInt(studentId));
+		Studentgrade enrolment = gradeService.findGradeBySidCid(student, crs);
+		ArrayList<Studentgrade> grades = gradeService.viewEnrolmentByCourseID(Integer.parseInt(courseId));
+		if (crs.getMaxClassSize() < grades.size()) {
+			return null;
+		} else {
+			enrolment.setCompletionStatus("Enroled");
+			Studentgrade newEnr = gradeService.createEnrolment(enrolment);
+			return new ModelAndView("adminPage/adminRole/enrolManage/enroleStudent");
+		}
+	}
+
+	@RequestMapping(value = "/enrol-student-deny/{courseId}/{studentId}", method = RequestMethod.POST)
+	public ModelAndView enrolStudentDeny(Model model, HttpSession session, @PathVariable String courseId,
+			@PathVariable String studentId) {
+		Courseinfo crs = courseService.findCourseinfo(Integer.parseInt(courseId));
+		Student student = sservice.findOneStudent(Integer.parseInt(studentId));
+		Studentgrade enrolment = gradeService.findGradeBySidCid(student, crs);
+		ArrayList<Studentgrade> grades = gradeService.viewEnrolmentByCourseID(Integer.parseInt(courseId));
+		enrolment.setCompletionStatus("Failed");
+		Studentgrade newEnr = gradeService.createEnrolment(enrolment);
+		return new ModelAndView("adminPage/adminRole/enrolManage/enroleStudent");
 	}
 
 }

@@ -102,17 +102,31 @@
 		<c:when
 			test="${sessionScope.USERSESSION.user.roleID.role == 'Student'}">
 			<spring:url value="/Student/viewGrades" var="viewGrades" htmlEscape="true" />
+			<spring:url value="/Student/viewCourses" var="viewCourses" htmlEscape="true" />
+			<spring:url value="/Student/requestEnrolment" var="requestEnrolment" htmlEscape="true" />
 			<li class="active treeview">
 				<a href="#"> 
 					<i class="fa fa-dashboard"></i> 
 					<span>Dashboard</span> 
 					<span class="pull-right-container"> 
-						<span class="label label-primary pull-right">10</span>
+						<span class="label label-primary pull-right">DB</span>
 					</span>
 				</a>
 			</li>
 			<li><a href="${viewGrades}"> <i
 					class="fa fa-circle-o text-red"></i> <span>View Grades</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">VG</small>
+				</span>
+			</a></li>
+			<li><a href="${viewCourses}"> 
+					<i class="fa fa-circle-o text-red"></i> <span>View Courses</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red">VG</small>
+				</span>
+			</a></li>
+			<li><a href="${requestEnrolment}"> 
+					<i class="fa fa-circle-o text-red"></i> <span>Request Enrolment</span>
 					<span class="pull-right-container"> <small
 						class="label pull-right bg-red">VG</small>
 				</span>

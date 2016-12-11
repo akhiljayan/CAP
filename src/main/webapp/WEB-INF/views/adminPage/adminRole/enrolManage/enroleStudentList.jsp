@@ -33,9 +33,14 @@
 													<c:when test="${enrl.completionStatus eq 'Enroled'}">
 														<td><a class="btn btn-warning" href="javascript:void(0)">Enroled</a></td>
 													</c:when>
+													<c:when test="${enrl.completionStatus eq 'Requested'}">
+														<td>
+															<a class="btn btn-primary enrol-student-grant" id="student-${student.studentID}" data-studentid="${student.studentID}" data-courseid="${courseId}" href="#">Grant Request</a>
+															<a class="btn btn-primary enrol-student-deny" id="student-${student.studentID}" data-studentid="${student.studentID}" data-courseid="${courseId}" href="#">Deny Request</a>
+														</td>
+													</c:when>
 													<c:when test="${enrl.completionStatus eq 'Failed'}">
-														<td><a class="btn btn-warning" href="javascript:void(0)">Failed</a>
-														<a class="btn btn-default enrol-student" id="student-${student.studentID}" href="#">Enrole to course</a></td>
+														<td><a class="btn btn-warning" href="javascript:void(0)">Not Eligible</a>
 													</c:when>
 												</c:choose>
 												<c:set var="flag" scope="session" value="inside"/>

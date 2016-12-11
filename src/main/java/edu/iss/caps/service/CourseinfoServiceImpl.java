@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iss.caps.model.Courseinfo;
+import edu.iss.caps.model.Student;
 import edu.iss.caps.repository.CourseinfoRepository;
 
 @Service
@@ -55,6 +56,12 @@ public class CourseinfoServiceImpl implements CourseinfoService{
 	@Override
 	public ArrayList<Courseinfo> findAllActiveCourses() {
 		return courseRepository.findAllActiveCourses();
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Courseinfo> findCourseForStudent(Student studentID) {
+		return courseRepository.findAvailableCourseForStudent(studentID);
 	}
 	
 }

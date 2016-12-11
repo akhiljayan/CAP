@@ -2,6 +2,8 @@ package edu.iss.caps.service;
 
 import java.util.ArrayList;
 
+import edu.iss.caps.model.Courseinfo;
+import edu.iss.caps.model.Student;
 import edu.iss.caps.model.Studentgrade;
 
 public interface StudentgradeService {
@@ -19,5 +21,7 @@ public interface StudentgradeService {
 	ArrayList<Studentgrade> viewPerformanceByStudentID(int id);
 
 	Studentgrade createEnrolment(Studentgrade enrolment);
+
+	Studentgrade findGradeBySidCid(Student student, Courseinfo crs);
 	
 }

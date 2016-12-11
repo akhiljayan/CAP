@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 
 import edu.iss.caps.model.Courseinfo;
+import edu.iss.caps.model.Student;
 
 public interface CourseinfoService {
 	
@@ -19,5 +20,7 @@ public interface CourseinfoService {
 	void removeCourseinfo(Courseinfo courseInfo);
 	
 	ArrayList<Courseinfo> findAllActiveCourses();
+	
+	ArrayList<Courseinfo> findCourseForStudent(Student studentID);
 	
 }
