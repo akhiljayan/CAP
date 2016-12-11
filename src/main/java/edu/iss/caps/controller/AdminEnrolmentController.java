@@ -185,7 +185,12 @@ public class AdminEnrolmentController {
 		return new ModelAndView("adminPage/adminRole/enrolManage/enroleStudent");
 	}
 	
-	
+	@RequestMapping(value = "/processEnrolmentRequest", method = RequestMethod.GET)
+	public ModelAndView processEnrolmentRequest(Model model, HttpSession session) throws AddressException, MessagingException {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/enrolManage/viewEnrolmentRequests");
+		mav.addObject("glist",gradeService.findAllEnrolmentRequests());
+		return mav;
+	}
 	
 	public String sendMailFunction(String tomail,String message) throws AddressException, MessagingException {
 		System.out.println("\n 1st ===> setup Mail Server Properties..");

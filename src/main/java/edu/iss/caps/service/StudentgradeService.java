@@ -23,5 +23,7 @@ public interface StudentgradeService {
 	Studentgrade createEnrolment(Studentgrade enrolment);
 
 	Studentgrade findGradeBySidCid(Student student, Courseinfo crs);
+
+	ArrayList<Studentgrade> findAllEnrolmentRequests();
 	
 }

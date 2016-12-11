@@ -10,6 +10,8 @@ $(document).ready(function() {
 });
 
 $(document).ready(function(){
+	countEnrolmentRequests();
+	
 	$("body").on("click",".delete-department",function(){
 		var deptId = $(this).data("deleteid");
 		var deletepath = "/caps/Admin/deleteDepartment/" + deptId;
@@ -252,6 +254,24 @@ function lecturerMenu(path){
 		},
 		success : function($data) {
 			$("#list-students-table").html($data);
+		},
+		complete : function() {
+		}
+	});
+}
+
+
+function countEnrolmentRequests(){
+	var path = "/caps/Ajax/count-enrolment-requests"
+	$.ajax({
+		type : "POST",
+		url : path,
+		context : this,
+		beforeSend : function() {
+		},
+		success : function($data) {
+			$("#requestCount").html($data);
+			$("#menu-process-enrl").html($data);
 		},
 		complete : function() {
 		}

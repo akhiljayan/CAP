@@ -75,5 +75,11 @@ public class StudentgradeServiceImpl implements StudentgradeService{
 	public Studentgrade findGradeBySidCid(Student student, Courseinfo crs) {
 		return sgrepository.findGradeByCourseStudent(student,crs);
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<Studentgrade> findAllEnrolmentRequests() {
+		return sgrepository.findAllEnrolmentRequests();
+	}
 	
 }

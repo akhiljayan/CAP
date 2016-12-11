@@ -10,43 +10,28 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	<div class="col-xs-12" style="margin-top:10px">
-		<div class="box">
-			<div class="box-header">
-				<h3 class="box-title">Your Grades</h3>
-			</div>
-			<!-- /.box-header -->
-			<div class="box-body table-responsive no-padding"
-				id="list-students-details">
-				<c:if test="${fn:length(clist) gt 0 }">
+				<c:if test="${fn:length(glist) gt 0}">
 					<table class="table table-hover">
 						<tbody>
 							<tr>
 								<th>#</th>
+								<th>Student Name</th>
 								<th>Course Name</th>
-								<th>Description</th>
-								<th>Strength</th>
+								<th>Action</th>
 							</tr>
-							<c:forEach var="c" items="${clist}">
-							
+							<c:forEach var="g" items="${glist}">
 								<tr>
-										<td>0</td>
-										<td>${c.courseName}</td>
-										<td>${c.courseDescription}</td>
-										<td>${c.maxClassSize}</td>
-									</tr>
-								
-								
+									<td>.</td>
+									<td>${g.studentID.studentName}</td>
+									<td>${g.courseID.courseName}</td>
+									<td>
+										<a class="btn btn-primary enrol-student-grant" id="student-${g.studentID.studentID}" data-studentid="${g.studentID.studentID}" data-courseid="${g.courseID.courseID}" href="javascript:void(0)">Grant Request</a>
+										<a class="btn btn-primary enrol-student-deny" id="student-${g.studentID.studentID}" data-studentid="${g.studentID.studentID}" data-courseid="${g.courseID.courseID}" href="javascript:void(0)">Deny Request</a>
+									</td>
+								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 				</c:if>
-			</div>
-			<!-- /.box-body -->
-		</div>
-		<!-- /.box -->
-	</div>
-
 </body>
 </html>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.iss.caps.model.Studentgrade;
@@ -68,6 +69,14 @@ public class AjaxController {
 		ArrayList<Studentgrade> enrolStstus = gradeService.getStudentGradeByCourse(Integer.parseInt(courseId));
 		mav.addObject("enrolStstus", enrolStstus);
 		mav.addObject("courseId", courseId);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/count-enrolment-requests", method = RequestMethod.POST, produces="application/json")
+	public ModelAndView countEnrolmentRequests(Model model, HttpSession session) {
+		ArrayList<Studentgrade> stdGrade = gradeService.findAllEnrolmentRequests();
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/enrolManage/countEnrol");
+		mav.addObject("count", stdGrade.size());
 		return mav;
 	}
 	

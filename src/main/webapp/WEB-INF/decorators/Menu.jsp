@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <!-- Sidebar user panel -->
 <div class="user-panel">
@@ -18,7 +19,7 @@
 <ul class="sidebar-menu">
 	<li class="header">MAIN NAVIGATION</li>
 
-
+	<spring:url value="/home/redirect" var="redirect" htmlEscape="true" />
 	<c:choose>
 		<c:when test="${sessionScope.USERSESSION.user.roleID.role == 'Admin'}">
 			<spring:url value="/Admin/studListManage" var="listStudManage" htmlEscape="true" />
@@ -26,7 +27,8 @@
 			<spring:url value="/Admin/manageFaculty" var="manageFaculty" htmlEscape="true" />
 			<spring:url value="/Admin/manageCourse" var="manageCourse" htmlEscape="true" />
 			<spring:url value="/AdminEnrol/manageEnrolment" var="manageEnrolment" htmlEscape="true" />
-			<li class="active treeview"><a href="#"> <i
+			<spring:url value="/AdminEnrol/processEnrolmentRequest" var="processEnrolmentRequest" htmlEscape="true" />
+			<li class="active treeview"><a href="${redirect}"> <i
 					class="fa fa-dashboard"></i> <span>Dashboard</span> <span
 					class="pull-right-container"> <span
 						class="label label-primary pull-right">D</span>
@@ -68,13 +70,19 @@
 						class="label pull-right bg-red">ME</small>
 				</span>
 			</a></li>
+			<li><a href="${processEnrolmentRequest}"> <i
+					class="fa fa-circle-o text-red"></i> <span>Process Request</span>
+					<span class="pull-right-container"> <small
+						class="label pull-right bg-red" id="requestCount"></small>
+				</span>
+			</a></li>
 		</c:when>
 		<c:when
 			test="${sessionScope.USERSESSION.user.roleID.role == 'Lecturer'}">
 			<spring:url value="/Lecturer/viewMyCourses" var="viewMyCourses" htmlEscape="true" />
 			<spring:url value="/Lecturer/gradeStds" var="gradeStds" htmlEscape="true" />
 			<spring:url value="/Lecturer/viewEnrlmnt" var="viewEnrlmnt" htmlEscape="true" />
-			<li class="active treeview"><a href="#"> <i
+			<li class="active treeview"><a href="${redirect}"> <i
 					class="fa fa-dashboard"></i> <span>Dashboard</span> <span
 					class="pull-right-container"> <span
 						class="label label-primary pull-right">10</span>
@@ -105,7 +113,7 @@
 			<spring:url value="/Student/viewCourses" var="viewCourses" htmlEscape="true" />
 			<spring:url value="/Student/requestEnrolment" var="requestEnrolment" htmlEscape="true" />
 			<li class="active treeview">
-				<a href="#"> 
+				<a href="${redirect}"> 
 					<i class="fa fa-dashboard"></i> 
 					<span>Dashboard</span> 
 					<span class="pull-right-container"> 

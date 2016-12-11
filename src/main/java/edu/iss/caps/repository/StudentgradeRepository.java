@@ -39,4 +39,7 @@ public interface StudentgradeRepository extends JpaRepository<Studentgrade,Integ
 	@Query("select sg from Studentgrade sg where sg.studentID = :student and sg.courseID = :crs")
 	Studentgrade findGradeByCourseStudent(@Param("student") Student student,@Param("crs") Courseinfo crs);
 	
+	@Query("select sg from Studentgrade sg where sg.completionStatus = 'Requested'")
+	ArrayList<Studentgrade> findAllEnrolmentRequests();
+	
 }
