@@ -70,7 +70,9 @@ public class StudentController {
 		ModelAndView mav = new ModelAndView("adminPage/studRole/viewCourse");
 		ArrayList<Courseinfo> clist = courseService.findAllActiveCourses();
 		ArrayList<Studentgrade> sglist = gradeService.findGradeBySid(currentStudentId);
-		mav.addObject("clist",clist);
+		Student std = sservice.findOneStudent(currentStudentId);
+		ArrayList<Courseinfo> cclist = courseService.findCourseForStudent(std);
+		mav.addObject("clist",cclist);
 		mav.addObject("sglist",sglist);
 		return mav;
 	}
