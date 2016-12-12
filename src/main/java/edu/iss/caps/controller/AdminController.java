@@ -27,12 +27,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import edu.iss.caps.model.Courseinfo;
 import edu.iss.caps.model.Department;
 import edu.iss.caps.model.Faculty;
+import edu.iss.caps.model.Lecturer;
 import edu.iss.caps.model.Loginrole;
 import edu.iss.caps.model.Student;
 import edu.iss.caps.model.User;
 import edu.iss.caps.service.CourseinfoService;
 import edu.iss.caps.service.DepartmentService;
 import edu.iss.caps.service.FacultyService;
+import edu.iss.caps.service.LecturerService;
 import edu.iss.caps.service.LoginroleService;
 import edu.iss.caps.service.StudentService;
 import edu.iss.caps.service.UserService;
@@ -71,6 +73,9 @@ public class AdminController {
 	
 	@Autowired
 	private CourseinfoValidator courseValidator;
+	
+	@Autowired
+	private LecturerService lecService;
 	
 	@InitBinder("department")
 	private void initDepartmentBinder(WebDataBinder binder) {
@@ -139,7 +144,7 @@ public class AdminController {
 		String password = request.getParameter("password");
 		String role = request.getParameter("role");
 		int roleId = Integer.parseInt(role);
-		Loginrole rlobj = lrservice.findOneById(roleId);
+		Loginrole rlobj = lrservice.findOneById(3);
 		user.setCreatedBy(createdUser);
 		user.setPassword(password);
 		user.setUsername(username);
@@ -154,7 +159,7 @@ public class AdminController {
 		student.setUserID(newUser);
 		sservice.createStudent(student);
 
-		return "redirect:/Admin/announcement";
+		return "redirect:/Admin/studListManage";
 	}
 
 	@RequestMapping(value = "/editStudent/{id}", method = RequestMethod.GET)
@@ -177,40 +182,20 @@ public class AdminController {
 			HttpSession session, HttpServletRequest request) throws ParseException {
 		UserSession us = (UserSession) session.getAttribute("USERSESSION");
 		
-		int userId = Integer.parseInt(request.getParameter("studentUserId"));
-		User user = uservice.findOneById(userId);
-		
+		User user = uservice.findOneById(student.getUserID().getUserID());
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String role = request.getParameter("role");
 		int roleId = Integer.parseInt(role);
-		Loginrole rlobj = lrservice.findOneById(roleId);
+		Loginrole rlobj = lrservice.findOneById(3);
 
 		user.setPassword(password);
 		user.setUsername(username);
 		user.setRoleID(rlobj);
 		User newUser = uservice.changeUser(user);
-		
-		Department dpt = dservice.findOneById(Integer.parseInt(request.getParameter("student-department")));
-		Faculty facl = fservice.finfOneById(Integer.parseInt(request.getParameter("student-faculty")));
-		
-		Student std = sservice.findOneStudent(id);
-		
-		DateFormat df = new SimpleDateFormat("dd-mm-yyyy"); 
-		
-		std.setAddress(request.getParameter("address"));
-		std.setDob(df.parse(request.getParameter("dob")));
-		std.setEmail(request.getParameter("email"));
-		std.setGender(request.getParameter("gender"));
-		std.setMatricDate(df.parse(request.getParameter("matricDate")));
-		std.setStatus(request.getParameter("status"));
-		std.setStudentName(request.getParameter("studentName"));
-		
-		std.setStudentFacultyID(facl);
-		std.setStudentDepartmentID(dpt);
-		std.setUserID(newUser);
-		sservice.changeStudent(std);		
-		return "redirect:/Admin/announcement";
+		student.setUserID(newUser);
+		sservice.changeStudent(student);		
+		return "redirect:/Admin/studListManage";
 	}
 	
 	@RequestMapping(value = "/deleteStudent/{id}", method = RequestMethod.POST)
@@ -274,12 +259,11 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/deleteDepartment/{id}", method = RequestMethod.GET)
-	public ModelAndView deleteDepartment(@PathVariable int id, final RedirectAttributes redirectAttributes){
-		ModelAndView mav = new ModelAndView("redirect:/dept/list");
+	@RequestMapping(value = "/deleteDepartment/{id}", method = RequestMethod.POST)
+	public String deleteDepartment(@PathVariable int id, final RedirectAttributes redirectAttributes){
 		Department department = dservice.findDepartment(id);
 		dservice.removeDepartment(department);
-		return mav;
+		return "list-students";
 	}
 	
 	@RequestMapping(value="/manageFaculty",method=RequestMethod.GET)
@@ -328,12 +312,11 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/deleteFaculty/{id}", method = RequestMethod.GET)
-	public ModelAndView deleteFaculty(@PathVariable int id, final RedirectAttributes redirectAttributes){
-		ModelAndView mav = new ModelAndView("redirect:/facut/list");
+	@RequestMapping(value = "/deleteFaculty/{id}", method = RequestMethod.POST)
+	public String deleteFaculty(@PathVariable int id, final RedirectAttributes redirectAttributes){
 		Faculty faculty = fservice.findFaculty(id);
 		fservice.removeFaculty(faculty);
-		return mav;
+		return "adminPage/adminIndex";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -373,18 +356,24 @@ public class AdminController {
 		mav.addObject("clist",courseService.findAllActiveCourses());
 		mav.addObject("dlist",dservice.findAllDepartments());
 		mav.addObject("flist",fservice.findAllFaculty());
+		mav.addObject("lect",lecService.findAllLecturer());
 		return mav;
 	}
 	
 	@RequestMapping(value = "/createNewCourse",method=RequestMethod.POST)
 	public ModelAndView createNewCourseinfo(@ModelAttribute @Valid Courseinfo courseInfo,BindingResult result,
-			final RedirectAttributes redirectAttributes){
+			final RedirectAttributes redirectAttributes, HttpServletRequest request){
 		if (result.hasErrors()){
 			return new ModelAndView("adminPage/adminRole/courseMang/course-new");
 		}
 		ModelAndView mav = new ModelAndView();
 		courseInfo.setCourseActiveStatus("Active");
-		courseService.createCourseinfo(courseInfo);
+		Courseinfo crs = courseService.createCourseinfo(courseInfo);
+		
+		Lecturer luct = lecService.findOneByLectId(Integer.parseInt(request.getParameter("lecturerId")));
+//		LecturerCourse lc = new LecturerCourse();
+//		lc.setCourseID(crs);
+//		lc.setLecturerID(luct);
 		mav.setViewName("redirect:/Admin/manageCourse");
 		return mav;
 	}
@@ -410,13 +399,109 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/deleteCourse/{id}", method = RequestMethod.GET)
-	public ModelAndView deleteCourse(@PathVariable int id, final RedirectAttributes redirectAttributes){
-		ModelAndView mav = new ModelAndView("redirect:/Admin/manageCourse");
+	@RequestMapping(value = "/deleteCourse/{id}", method = RequestMethod.POST)
+	public String deleteCourse(@PathVariable int id, final RedirectAttributes redirectAttributes){
+		
+		
 		Courseinfo courseInfo = courseService.findCourseinfo(id);
 		courseInfo.setCourseActiveStatus("Inactive");
 		courseService.changeCourseinfo(courseInfo);		
+		return "adminPage/adminIndex";
+	}
+//====================================================================================================================	
+	
+	
+	@RequestMapping(value = "/manageLecturer", method = RequestMethod.GET)
+	public ModelAndView manageLecturer( Model model, HttpSession session, HttpServletRequest req) {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/lectMang/listLecturer");
+		List<Lecturer> lecList = lecService.findAllEmployedLecturers();
+		mav.addObject("lecList", lecList);
 		return mav;
 	}
+
+	
+
+	@RequestMapping(value = "/addLecturer", method = RequestMethod.GET)
+	public ModelAndView addLecturerForm(Model model, HttpSession session, Map<String, Object> map) {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/lectMang/addLecturerForm", "lecturer", new Lecturer());
+		mav.addObject("flist",fservice.findAllFaculty());
+		mav.addObject("dlist",dservice.findAllDepartments());
+		return mav;
+	}
+
+	@RequestMapping(value = "/addLecturer", method = RequestMethod.POST)
+	public ModelAndView addLecturerPersist(@ModelAttribute @Valid Lecturer lecturer, BindingResult result,
+			Model model, HttpSession session, final RedirectAttributes redirectAttributes,  HttpServletRequest request) {
+		
+		if (result.hasErrors()){
+			return new ModelAndView("adminPage/adminRole/lectMang/addLecturerForm");
+		}else{
+			UserSession us = (UserSession) session.getAttribute("USERSESSION");
+			User createdUser = us.getUser();
+			User user = new User();
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			Loginrole rlobj = lrservice.findOneById(2);
+			user.setCreatedBy(createdUser);
+			user.setPassword(password);
+			user.setUsername(username);
+			user.setRoleID(rlobj);
+			User newUser = uservice.createUser(user);
+			
+			lecturer.setUserID(newUser);
+			lecService.createLecturer(lecturer);
+			
+			ModelAndView mav = new ModelAndView();			
+			mav.setViewName("redirect:/Admin/manageLecturer");
+			return mav;
+		}
+	}
+
+	@RequestMapping(value = "/editLecturer/{id}", method = RequestMethod.GET)
+	public ModelAndView editLecturer(@PathVariable String id, @ModelAttribute Lecturer lecturer, Map<String, Object> map) {
+		ModelAndView mav = new ModelAndView("adminPage/adminRole/lectMang/editLecturerForm");
+		Lecturer lecturerObj = lecService.findLecturer(Integer.parseInt(id));
+		mav.addObject("departments", dservice.findAllDepartments());
+		mav.addObject("faculties", fservice.findAllFaculty());
+		mav.addObject("user",lecturerObj.getUserID());
+		mav.addObject("lecturer",lecturerObj);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/editLecturer/{id}", method = RequestMethod.POST)
+	public ModelAndView editLecturerPersist(@ModelAttribute @Valid Lecturer lecturer, BindingResult result, @PathVariable Integer id, Model model,
+			HttpSession session, HttpServletRequest request, final RedirectAttributes redirectAttributes) throws ParseException {
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		if (result.hasErrors())
+		{
+			return new ModelAndView("adminPage/adminRole/lectMang/editLecturerForm");
+		}else{
+			User user = uservice.findOneById(lecturer.getUserID().getUserID());
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			Loginrole rlobj = lrservice.findOneById(2);
+			user.setPassword(password);
+			user.setUsername(username);
+			user.setRoleID(rlobj);
+			User newUser = uservice.changeUser(user);
+			lecturer.setUserID(newUser);
+			lecService.changeLecturer(lecturer);	
+			ModelAndView mav = new ModelAndView("redirect:/Admin/manageLecturer");
+			return mav;
+		}
+	}
+	
+	@RequestMapping(value = "/deleteLecturer/{id}", method = RequestMethod.POST)
+	public String deleteLecturer(@PathVariable Integer id, final RedirectAttributes redirectAttributes) {
+		Lecturer lecturer = lecService.findLecturer(id);
+		User user = lecturer.getUserID();		
+		uservice.removeUser(user);
+		lecturer.setStatus("Unemployed");
+		lecturer.setUserID(null);
+		lecService.changeLecturer(lecturer);
+		return "redirect:/Admin/manageLecturer";
+	}
+	
+	
 
 }

@@ -26,15 +26,17 @@
 								<th>#</th>
 								<th>Course Name</th>
 								<th>Description</th>
-								<th>Strength</th>
+								<th>Max Class Size</th>
+								<th>Status</th>
 							</tr>
 							<c:forEach var="c" items="${clist}">
 							
 								<tr>
 										<td>0</td>
-										<td>${c.courseName}</td>
-										<td>${c.courseDescription}</td>
-										<td>${c.maxClassSize}</td>
+										<td>${c.courseID.courseName}</td>
+										<td>${c.courseID.courseDescription}</td>
+										<td>${c.courseID.maxClassSize}</td>
+										<td>${c.completionStatus }</td>
 									</tr>
 								
 								

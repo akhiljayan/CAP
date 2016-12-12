@@ -61,22 +61,27 @@ public class HomeController {
 		UserSession us = new UserSession();
 		if (user.getUsername() != null && user.getPassword() != null) {
 			User u = uservice.authenticate(user.getUsername(), user.getPassword());
-			us.setUser(u);
-			us.setLogedIn(true);
-			us.setSessionId(session.getId());
-			us.setAdminFlag(true);
-			if(u.getRoleID().getRole().equals("Student")){
-				Student logedStudent = sservice.findOneByUserId(u);
-				us.setGeneralID(logedStudent.getStudentID());
-			}else if(u.getRoleID().getRole().equals("Lecturer")){
-				Lecturer logedLecturer = lservice.findOneByUserId(u);
-				us.setGeneralID(logedLecturer.getLecturerID());
+			if(u != null){
+				us.setUser(u);
+				us.setLogedIn(true);
+				us.setSessionId(session.getId());
+				us.setAdminFlag(true);
+				if(u.getRoleID().getRole().equals("Student")){
+					Student logedStudent = sservice.findOneByUserId(u);
+					us.setGeneralID(logedStudent.getStudentID());
+				}else if(u.getRoleID().getRole().equals("Lecturer")){
+					Lecturer logedLecturer = lservice.findOneByUserId(u);
+					us.setGeneralID(logedLecturer.getLecturerID());
+				}else{
+					
+				}
+				mav = new ModelAndView("redirect:/home/redirect");
 			}else{
-				
+				mav = new ModelAndView("homePage/noAccess");
 			}
-			mav = new ModelAndView("redirect:/home/redirect");
+			
 		} else {
-			mav = new ModelAndView("hamePage/noAccess");
+			mav = new ModelAndView("homePage/noAccess");
 			return mav;
 		}
 		session.setAttribute("USERSESSION", us);

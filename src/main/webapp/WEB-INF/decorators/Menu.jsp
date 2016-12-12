@@ -24,6 +24,7 @@
 		<c:when test="${sessionScope.USERSESSION.user.roleID.role == 'Admin'}">
 			<spring:url value="/Admin/studListManage" var="listStudManage" htmlEscape="true" />
 			<spring:url value="/Admin/manageDepartment" var="manageDepartment" htmlEscape="true" />
+			<spring:url value="/Admin/manageLecturer" var="manageLecturer" htmlEscape="true" />
 			<spring:url value="/Admin/manageFaculty" var="manageFaculty" htmlEscape="true" />
 			<spring:url value="/Admin/manageCourse" var="manageCourse" htmlEscape="true" />
 			<spring:url value="/AdminEnrol/manageEnrolment" var="manageEnrolment" htmlEscape="true" />
@@ -40,7 +41,7 @@
 						class="label pull-right bg-red">S</small>
 				</span>
 			</a></li>
-			<li><a href="pages/calendar.html"> <i
+			<li><a href="${manageLecturer}"> <i
 					class="fa fa-circle-o text-red"></i> <span>Lecturer
 						Management</span> <span class="pull-right-container"> <small
 						class="label pull-right bg-red">L</small>

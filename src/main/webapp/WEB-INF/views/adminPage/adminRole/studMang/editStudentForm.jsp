@@ -26,8 +26,8 @@
 	</script>
 	<spring:url value="/Admin/editStudentPersist" var="formsubmit" htmlEscape="true" />
 	<form:form method="POST" action="${formsubmit}/${student.studentID}" modelAttribute="student">
-	<input type="hidden" name="studentUserId" value="${user.userID}">
-	<input type="hidden" name="studentId" value="${stud.studentID}">
+	<form:hidden path="studentID" />
+	<form:hidden path="userID.userID" />
 		<div class="panel panel-primary">
 			<div class="panel-body">
 				<div class="col-md-12">
@@ -40,12 +40,12 @@
 						<input type="text" class="form-control" required name="password" value="${user.password}">
 					</div>
 					<div class="col-md-4">
-						<label>Role</label>
+						<%-- <label>Role</label>
 						<select class="form-control" name="role">
 							<option>--Select one--</option>
 							<c:forEach var="role" items="${roles}">
 								<c:choose>
-									<c:when test="${role.role}.equals(${stud.userID.roleID.role})">
+									<c:when test="${role.role}.equals(${student.userID.roleID.role})">
 										<option selected value="${role.roleID}">${role.role}</option>
 									</c:when>
 									<c:otherwise>
@@ -53,8 +53,7 @@
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-							
-						</select>
+						</select> --%>
 					</div>
 				</div>
 			</div>
@@ -68,7 +67,14 @@
 					</div>
 					<div class="col-md-6">
 						<label>Faculty</label>
-						<select class="form-control" name="student-faculty">
+						<form:select cssClass="form-control" path="studentFacultyID.facultyID">
+							<c:forEach var="facut" items="${faculties}">
+								<option <c:if test="${facut.facultyID eq student.studentFacultyID.facultyID}">selected="selected"</c:if> value="${facut.facultyID}">${facut.facultyName}</option>
+							</c:forEach>
+						</form:select>
+						
+						
+						<%-- <select class="form-control" name="student-faculty">
 
 							<c:forEach var="faculty" items="${faculties}">
 								<c:choose>
@@ -81,13 +87,21 @@
 								</c:choose>
 							</c:forEach>
 							
-						</select>
+						</select> --%>
 					</div>
 				</div>
 				<div class="col-md-12" style="margin-top:10px">
 					<div class="col-md-6">
 						<label>Department</label> 
-						<select class="form-control" name="student-department">
+						<form:select cssClass="form-control" path="studentDepartmentID.departmentID">
+							<c:forEach var="department" items="${departments}">
+								<option <c:if test="${department.departmentID eq student.studentDepartmentID.departmentID}">selected="selected"</c:if> value="${department.departmentID}">${department.departmentName}</option>
+							</c:forEach>
+						</form:select>
+						
+						
+						
+						<%-- <select class="form-control" name="student-department">
 							<option>--Select one--</option>
 							<c:forEach var="department" items="${departments}">
 								<c:choose>
@@ -100,7 +114,7 @@
 								</c:choose>
 								
 							</c:forEach>
-						</select>
+						</select> --%>
 					</div>
 					<div class="col-md-6">
 						<label>Status</label>
@@ -127,8 +141,6 @@
 						<form:input path="email" cssClass="form-control" required="required" />
 					</div>
 					<div class="col-md-6">
-						<label>Mobile</label>
-						<input type="text" class="form-control" required name="mobile">
 					</div>
 				</div>
 				<div class="col-md-12" style="margin-top:10px">

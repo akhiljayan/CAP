@@ -118,7 +118,7 @@
 		        <!-- main form -->
 		        <div class="col-md-4 course-form-box">
 		        	<h3>Login to CAPS</h3>
-		            <p style="height:40px">Continue all your activities by loging in to CAPS system</p>
+		            <p style="height:40px">Continue all your activities by logging in to CAPS system</p>
 		            
 		            <!--<form id="curse-form" class="nm" action="/login" method="post" accept-charset="utf-8"> ${pageContext.request.contextPath} -->
 		            <form:form modelAttribute="user" method="POST" action="/caps/home/authenticate" >

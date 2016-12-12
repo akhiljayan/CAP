@@ -71,7 +71,8 @@ public class StudentController {
 		ArrayList<Courseinfo> clist = courseService.findAllActiveCourses();
 		ArrayList<Studentgrade> sglist = gradeService.findGradeBySid(currentStudentId);
 		Student std = sservice.findOneStudent(currentStudentId);
-		ArrayList<Courseinfo> cclist = courseService.findCourseForStudent(std);
+		//ArrayList<Courseinfo> cclist = courseService.findCourseForStudent(std);
+		ArrayList<Studentgrade> cclist = gradeService.findGradeBySid(std.getStudentID());
 		mav.addObject("clist",cclist);
 		mav.addObject("sglist",sglist);
 		return mav;

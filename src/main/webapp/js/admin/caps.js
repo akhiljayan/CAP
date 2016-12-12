@@ -21,7 +21,7 @@ $(document).ready(function(){
 	
 	$("body").on("click",".delete-faculty",function(){
 		var facultyId = $(this).data("deleteid");
-		var deletepath = "/caps/Admin/deleteFaculty/" + studentId;
+		var deletepath = "/caps/Admin/deleteFaculty/" + facultyId;
 		var deletefor = "Faculty";
 		deleteSwal(deletepath,deletefor);
 	});
@@ -34,9 +34,16 @@ $(document).ready(function(){
 	});
 	
 	$("body").on("click",".delete-course",function(){
-		var studentId = $(this).data("deleteid");
-		var deletepath = "/caps/Admin/deleteCourse/" + studentId;
+		var courseId = $(this).data("deleteid");
+		var deletepath = "/caps/Admin/deleteCourse/" + courseId;
 		var deletefor = "Course";
+		deleteSwalCourse(deletepath,deletefor);
+	});
+	
+	$("body").on("click",".delete-lecturer",function(){
+		var lecturerId = $(this).data("deleteid");
+		var deletepath = "/caps/Admin/deleteLecturer/" + lecturerId;
+		var deletefor = "Lecturer";
 		deleteSwal(deletepath,deletefor);
 	});
 	
@@ -213,10 +220,31 @@ function deleteSwal(path,deletefor){
 		  closeOnCancel: false
 		},
 		function(isConfirm){
-		  if (isConfirm) {
-			var set = deleteItem(path);  
-			swal("Deleted!", deletefor+" has been deleted.", "success");
-			location.reload();
+		  if (isConfirm) {  
+			  $.ajax({
+					type : "POST",
+					url : path,
+					context : this,
+					beforeSend : function() {
+					},
+					success : function($data) {
+						if($data){
+							swal("Deleted!", deletefor+" has been deleted.", "success");
+							if(deletefor =="Course"){
+								location.reload();
+							}else{
+								window.location.href = "../caps/Admin/manageCourse";
+							}
+							
+						}else{
+							set = "false";
+						}
+					},
+					complete : function() {
+					}
+				});
+			  
+			
 
 		  } else {
 		    swal("Cancelled", deletefor+" is safe :)", "error");
@@ -224,25 +252,44 @@ function deleteSwal(path,deletefor){
 		});
 }
 
-function deleteItem(path){
-	var set = "false";
-	$.ajax({
-		type : "POST",
-		url : path,
-		context : this,
-		beforeSend : function() {
+function deleteSwalCourse(path,deletefor){
+	swal({
+		  title: "Are you sure?",
+		  text: "You will not be able to recover this "+deletefor+" details!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "Yes, delete it!",
+		  cancelButtonText: "No, cancel plx!",
+		  closeOnConfirm: false,
+		  closeOnCancel: false
 		},
-		success : function($data) {
-			if($data){
-				set = "true";
-			}else{
-				set = "false";
-			}
-		},
-		complete : function() {
-		}
-	});
-	return set;
+		function(isConfirm){
+		  if (isConfirm) {  
+			  $.ajax({
+					type : "POST",
+					url : path,
+					context : this,
+					beforeSend : function() {
+					},
+					success : function($data) {
+						if($data){
+							swal("Deleted!", deletefor+" has been deleted.", "success");
+							window.location.href = "../manageCourse";
+						}else{
+							set = "false";
+						}
+					},
+					complete : function() {
+					}
+				});
+			  
+			
+
+		  } else {
+		    swal("Cancelled", deletefor+" is safe :)", "error");
+		  }
+		});
 }
 
 function lecturerMenu(path){

@@ -24,8 +24,8 @@
 			});
 		});
 	</script>
-	<spring:url value="/Admin/newStudentPersist" var="formsubmit" htmlEscape="true" />
-	<form:form method="POST" action="${formsubmit}" commandName="student">
+	<spring:url value="/Admin/addLecturer" var="formsubmit" htmlEscape="true" />
+	<form:form method="POST" action="${formsubmit}" modelAttribute="lecturer">
 		<div class="panel panel-primary">
 			<div class="panel-body">
 				<div class="col-md-12">
@@ -38,13 +38,7 @@
 						<input type="text" class="form-control" required name="password">
 					</div>
 					<div class="col-md-4">
-						<%-- <label>Role</label>
-						<select class="form-control" name="role">
-							<option>--Select one--</option>
-							<c:forEach var="role" items="${roles}">
-								<option value="${role.roleID}">${role.role}</option>
-							</c:forEach>
-						</select> --%>
+
 					</div>
 				</div>
 			</div>
@@ -53,32 +47,34 @@
 			<div class="panel-body">
 				<div class="col-md-12" style="margin-top:10px">
 					<div class="col-md-6">
-						<label>Name</label>
-						<form:input path="studentName" cssClass="form-control" required="required"/>
+						<label>Lecturer Name</label>
+						<form:input path="lecturerName" cssClass="form-control" required="required"/>
+						<form:errors path="lecturerName" cssStyle="color: red;" />
 					</div>
 					<div class="col-md-6">
 						<label>Faculty</label>
-						<select class="form-control" name="student-faculty">
-							<option>--Select one--</option>
-							<c:forEach var="faculty" items="${faculties}">
-								<option value="${faculty.facultyID}">${faculty.facultyName}</option>
-							</c:forEach>
-						</select>
+						<form:select path="lecturerFacultyID.facultyID" cssClass="form-control" required="required">
+								<option value="NONE" label="---Select Faculty---" />
+								<c:forEach var="fac" items="${flist}">
+									<option value="${fac.facultyID}">${fac.facultyName}</option>
+								</c:forEach>
+						</form:select>
 					</div>
 				</div>
 				<div class="col-md-12" style="margin-top:10px">
 					<div class="col-md-6">
 						<label>Department</label> 
-						<select class="form-control" name="student-department">
-							<option>--Select one--</option>
-							<c:forEach var="department" items="${departments}">
-								<option value="${department.departmentID}">${department.departmentName}</option>
-							</c:forEach>
-						</select>
+						<form:select path="lecturerDepartmentID.departmentID" cssClass="form-control" required="required">
+								<option value="" label="--- Select Dept. ---" /> 
+								<c:forEach var="dep" items="${dlist}">
+									<option value="${dep.departmentID}">${dep.departmentName}</option>
+								</c:forEach>
+						</form:select>
 					</div>
 					<div class="col-md-6">
 						<label>Status</label>
 						<form:input path="status" cssClass="form-control" required="required"/>
+						<form:errors path="status" cssStyle="color: red;" />
 					</div>
 				</div>
 				<div class="col-md-12" style="margin-top:10px">
@@ -89,16 +85,19 @@
 							<form:option value="M" label="Male" />
 							<form:option value="F" label="Female" />
 						</form:select>
+						<form:errors path="gender" cssStyle="color: red;" />
 					</div>
 					<div class="col-md-6">
 						<label>Date of Birth</label>
 						<form:input path="dob" cssClass="form-control datepicker" required="required" />
+						<form:errors path="dob" cssStyle="color: red;" />
 					</div>
 				</div>
 				<div class="col-md-12" style="margin-top:10px">
 					<div class="col-md-6">
 						<label>Email</label>
 						<form:input path="email" cssClass="form-control" required="required" />
+						<form:errors path="email" cssStyle="color: red;" />
 					</div>
 					<div class="col-md-6">
 					</div>
@@ -107,10 +106,12 @@
 					<div class="col-md-6">
 						<label>Address</label>
 						<form:input path="address" cssClass="form-control" required="required" />
+						<form:errors path="address" cssStyle="color: red;" />
 					</div>
 					<div class="col-md-6">
-						<label>Metric Date</label>
-						<form:input path="matricDate" cssClass="form-control datepicker" required="required" />
+						<label>Employment Start Date</label>
+						<form:input path="employedDate" cssClass="form-control datepicker" required="required" />
+						<form:errors path="employedDate" cssStyle="color: red;" />
 					</div>
 				</div>
 			</div>

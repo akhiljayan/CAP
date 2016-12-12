@@ -48,7 +48,6 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	@Transactional
 	public Student findOneStudent(int id) {
-		// TODO Auto-generated method stub
 		return studRepo.findOne(id);
 	}
 
@@ -61,7 +60,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	@Transactional
 	public void removeStudent(Student student) {
-		studRepo.delete(student);
+		studRepo.delete(student.getStudentID());
 	}
 
 	@Override

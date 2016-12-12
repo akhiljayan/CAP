@@ -13,5 +13,17 @@ public interface LecturerService {
 	Lecturer getCourseByLecturerID(int id);
 
 	Lecturer findOneByUserId(User user);
+
+	Lecturer findOneByLectId(int id);
+		
+	ArrayList<Lecturer> findAllEmployedLecturers();
+	
+	ArrayList<Integer> findAllLecturerIDs();
+	
+	Lecturer createLecturer(Lecturer lecturer);
+ 
+	Lecturer findLecturer(int id);
+	
+	Lecturer changeLecturer(Lecturer lecturer);
 	
 }

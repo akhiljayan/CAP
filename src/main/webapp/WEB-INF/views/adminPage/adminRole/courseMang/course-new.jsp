@@ -47,12 +47,18 @@
 					</div>
 				</div>
 				<div class="col-md-12" style="margin-top:10px">
-					<div class="col-md-6">
+					<select class="form-control" name="lecturerId">
+						<option>--Select one--</option>
+						<c:forEach var="lect" items="${lect}">
+							<option value="${lect.lecturerID}">${lect.lecturerName}</option>
+						</c:forEach>
+					</select>
+					<div class="col-md-4">
 						<label>>Max Size</label>
 						<form:input path="maxClassSize"  cssClass="form-control" required="required"/>
 						<form:errors path="maxClassSize" cssStyle="color: red;" />
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<label>Credits</label>
 						<form:input path="credits" cssClass="form-control" required="required" />
 						<form:errors path="credits" cssStyle="color: red;" />

@@ -27,10 +27,10 @@
 					<div class="col-md-6">
 						<label>Faculty Name</label>
 						<form:select cssClass="form-control" path="facultyID.facultyID">
-						<c:forEach var="facut" items="${flist}">
-							<option <c:if test="${facut.facultyID eq department.facultyID.facultyID}">selected="selected"</c:if> value="${facut.facultyID}">${facut.facultyName}</option>
-						</c:forEach>
-					</form:select>
+							<c:forEach var="facut" items="${flist}">
+								<option <c:if test="${facut.facultyID eq department.facultyID.facultyID}">selected="selected"</c:if> value="${facut.facultyID}">${facut.facultyName}</option>
+							</c:forEach>
+						</form:select>
 					</div>
 				</div>
 			</div>
