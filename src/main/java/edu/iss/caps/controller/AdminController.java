@@ -186,8 +186,8 @@ public class AdminController {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String role = request.getParameter("role");
-		int roleId = Integer.parseInt(role);
-		Loginrole rlobj = lrservice.findOneById(3);
+		int roleId = student.getUserID().getRoleID().getRoleID();//Integer.parseInt(role);
+		Loginrole rlobj = lrservice.findOneById(roleId);
 
 		user.setPassword(password);
 		user.setUsername(username);

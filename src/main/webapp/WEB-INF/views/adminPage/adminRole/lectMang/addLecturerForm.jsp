@@ -96,7 +96,7 @@
 				<div class="col-md-12" style="margin-top:10px">
 					<div class="col-md-6">
 						<label>Email</label>
-						<form:input path="email" cssClass="form-control" required="required" />
+						<form:input type ="email" path="email" cssClass="form-control" required="required" />
 						<form:errors path="email" cssStyle="color: red;" />
 					</div>
 					<div class="col-md-6">

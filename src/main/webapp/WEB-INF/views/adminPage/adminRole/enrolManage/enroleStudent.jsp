@@ -59,8 +59,8 @@
 													</c:when>
 													<c:when test="${enrl.completionStatus eq 'Requested'}">
 														<td>
-															<a class="btn btn-primary enrol-student-grant" id="student-${student.studentID}" data-courseid="${courseId}" href="#">Grant Request</a>
-															<a class="btn btn-primary enrol-student-deny" id="student-${student.studentID}" data-courseid="${courseId}" href="#">Deny Request</a>
+															<a class="btn btn-primary enrol-student-grant" id="student-${student.studentID}" data-studentid="${student.studentID}" data-courseid="${courseId}" href="#">Grant Request</a>
+															<a class="btn btn-primary enrol-student-deny" id="student-${student.studentID}" data-studentid="${student.studentID}" data-courseid="${courseId}" href="#">Deny Request</a>
 														</td>
 													</c:when>
 													<c:when test="${enrl.completionStatus eq 'Failed'}">
@@ -72,7 +72,7 @@
 										</c:choose>
 									</c:forEach>
 									<c:if test="${flag eq 'outside'}">
-										<td><a class="btn btn-default enrol-student" id="student-${student.studentID}" href="javascript:void(0)">Enrole to course</a>
+										<td><a class="btn btn-default enrol-student" id="student-${student.studentID}" data-studentid="${student.studentID}" data-courseid="${courseId}" href="javascript:void(0)">Enrole to course</a>
 									</c:if>
 								</tr>
 							</c:forEach>

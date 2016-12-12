@@ -40,8 +40,8 @@
 						<input type="text" class="form-control" required name="password" value="${user.password}">
 					</div>
 					<div class="col-md-4">
-						<%-- <label>Role</label>
-						<select class="form-control" name="role">
+						<label>Role</label>
+						<%-- <form:select class="form-control" name="role">
 							<option>--Select one--</option>
 							<c:forEach var="role" items="${roles}">
 								<c:choose>
@@ -54,6 +54,8 @@
 								</c:choose>
 							</c:forEach>
 						</select> --%>
+						
+						<form:hidden path="userID.roleID.roleID" />
 					</div>
 				</div>
 			</div>
@@ -138,7 +140,7 @@
 				<div class="col-md-12" style="margin-top:10px">
 					<div class="col-md-6">
 						<label>Email</label>
-						<form:input path="email" cssClass="form-control" required="required" />
+						<form:input type="email" path="email" cssClass="form-control" required="required" />
 					</div>
 					<div class="col-md-6">
 					</div>

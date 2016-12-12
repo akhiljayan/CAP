@@ -61,7 +61,7 @@ public class Courseinfo implements Serializable {
     @JoinTable(name = "lecturercourse", joinColumns = {
         @JoinColumn(name = "CourseID", referencedColumnName = "CourseID")}, inverseJoinColumns = {
         @JoinColumn(name = "LecturerID", referencedColumnName = "LecturerID")})
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     private Collection<Lecturer> lecturerCollection;
     
     @JoinColumn(name = "CourseDepartmentID", referencedColumnName = "DepartmentID")
